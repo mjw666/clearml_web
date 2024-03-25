@@ -1,0 +1,29 @@
+<sm-editable-section
+  #prototext
+  [editable]="!model?.ready && model?.company?.id && !isSharedAndNotOwner"
+  [saving]="saving"
+  [hideEditButton]="!!design"
+  [disableInEditMode]="true"
+  (activateEditClicked)="activateEdit(); editPrototext()"
+  (saveClicked)="saveClicked()"
+  (cancelClicked)="cancelEdit()"
+>
+  <sm-section-header label="模型配置"></sm-section-header>
+  <sm-scroll-textarea
+    class="flex-grow-1"
+    [editable]="inEditMode && prototext.inEditMode"
+    [formData]="design ?? ''"
+    [showSpinner]="false"
+  >
+    <button extra-buttons
+      *ngIf="!model?.ready && model?.company?.id && !isSharedAndNotOwner"
+      class="btn btn-dark-fill terminal flex-1"
+      (click)="prototext.editModeChanged(true)"
+    >编辑</button>
+    <button extra-buttons
+            *ngIf="!model?.ready && model?.company?.id && !isSharedAndNotOwner && design"
+            class="btn btn-dark-fill terminal flex-1"
+            (click)="clearPrototext()"
+    ><i class="p-1 fa fa-trash"></i>CLEAR</button>
+  </sm-scroll-textarea>
+</sm-editable-section>

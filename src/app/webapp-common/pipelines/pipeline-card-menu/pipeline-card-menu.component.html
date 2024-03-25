@@ -1,0 +1,24 @@
+<div [matMenuTriggerFor]="pipelinesMenu" smClickStopPropagation
+     class="p-0 cell menu-button al-icon al-color blue-300 al-ico-bars-menu"
+></div>
+<mat-menu #pipelinesMenu="matMenu">
+  <button mat-menu-item (click)="rename.emit()">
+    <i class="al-icon sm-md" [class]="icons.EDIT"></i>重命名
+  </button>
+  <button mat-menu-item [matMenuTriggerFor]="tagsMenu.matMenu">
+    <i class="al-icon sm-md" [class]="icons.TAG"></i>添加标签
+  </button>
+  <hr>
+  <button mat-menu-item (click)="delete.emit()">
+    <i class="al-icon sm-md" [class]="icons.REMOVE"></i>删除
+  </button>
+</mat-menu>
+<sm-tags-menu
+  #tagsMenu
+  class="light-theme"
+  [tags]="project?.tags"
+  [tagsFilterByProject]="true"
+  [projectTags]="allTags"
+  [companyTags]="null"
+  (tagSelected)="addTag.emit($event)">
+</sm-tags-menu>

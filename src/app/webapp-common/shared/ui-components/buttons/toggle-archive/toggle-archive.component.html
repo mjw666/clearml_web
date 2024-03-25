@@ -1,0 +1,8 @@
+<button
+  class="btn btn-cml-primary" [class.show-archived]="showArchived"
+  (click)="toggleArchived.emit(!showArchived)"
+  [smTooltip]="minimize ? showArchived ? '退出存档': '打开存档' : ''"
+>
+  <i [class]="'al-icon sm ' + (showArchived? ' al-ico-exit-archive' : 'al-ico-archive' )" data-id="Open Archive"></i>
+  <span *ngIf="!minimize" class="button-label">{{showArchived? '退出': '打开'}}存档</span>
+</button>

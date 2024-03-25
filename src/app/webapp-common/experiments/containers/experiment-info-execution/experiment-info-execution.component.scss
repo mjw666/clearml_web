@@ -1,0 +1,133 @@
+@import "variables";
+
+:host {
+  display: block;
+  height: 100%;
+  overflow: auto;
+
+  mat-sidenav-container {
+    height: 100%;
+    position: static;
+  }
+
+  mat-sidenav-content  {
+    position: static;
+  }
+
+  mat-nav-list {
+    min-width: 360px;
+    padding-top: 0;
+  }
+
+  .side-link {
+    text-decoration: none;
+    color: $blue-400;
+    font-size: 13px;
+    font-weight: 500;
+
+    &.selected {
+      color: $white;
+      background-color: $purple;
+    }
+  }
+
+  .sidenav-content {
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+    background-color: white;
+
+
+    &.maximized {
+      overflow: auto;
+
+      sm-scroll-textarea {
+        flex: 1;
+      }
+
+      sm-editable-section.limit-width {
+        max-width: 1200px;
+      }
+    }
+
+    sm-editable-section {
+      &.grow {
+        flex: 1;
+      }
+
+      &:hover {
+        .copy-textarea {
+          visibility: visible;
+        }
+      }
+    }
+  }
+
+  ::ng-deep sm-experiment-requirements-code textarea, ::ng-deep sm-scroll-textarea textarea {
+    padding: 5px 15px;
+  }
+
+  .copy-textarea {
+    position: absolute;
+    right: 32px;
+    top: 72px;
+    z-index: 2;
+    visibility: hidden;
+  }
+
+  .edit-in-section {
+    ::ng-deep #editSection {
+      position: relative;
+      top: 36px;
+    }
+  }
+
+  .setup-shell-script {
+    margin-top: -30px;
+
+    &.maximised {
+      max-width: 1200px;
+    }
+
+    ::ng-deep .editable-container {
+      padding-top: 0;
+      display: flex;
+      position: relative;
+
+      .edit-wrapper {
+        position: absolute;
+        right: 24px;
+        top: 0;
+        bottom: 0;
+      }
+      ::ng-deep sm-section-header  {
+        width: 155px;
+        h4 {
+          font-weight: 500;
+          color: #71758A;
+          font-size: 11px;
+        }
+      }
+      sm-scroll-textarea {
+        position: relative;
+        flex: 1;
+        span.no-changes {
+          font-size: 11px;
+        }
+      }
+    }
+  }
+  .terminal.toggle {
+    color: $neon-yellow;
+  }
+
+  .requirements-header {
+    display: flex;
+    gap: 24px;
+  }
+
+  .requirements-selector {
+    height: 20px;
+    margin-bottom: 24px;
+  }
+}

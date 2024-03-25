@@ -1,0 +1,39 @@
+<div class="d-flex justify-content-start align-items-center button-container" [smTooltip]="buttonTooltip">
+  <i [class]="prefixIconClass" *ngIf="prefixIconClass" (click)="trigger.openMenu()"></i>
+  <div mat-button
+       smClickStopPropagation
+       [matMenuTriggerFor]="menu"
+       class=" p-0 cell menu-button"
+       [class]="buttonClass"
+       [class.btn]="hasButtonClass"
+       [class.hidden-button]="!showButton"
+       [class.disabled-menu-btn]="disabled"
+       (menuOpened)="menuOpened.emit()"
+  >
+    {{header}}
+  </div>
+  <i *ngIf="showCart" [class]="iconClass" data-id="OpenMenu" (click)="trigger.openMenu()"></i>
+</div>
+<mat-menu
+  #menu="matMenu"
+  class="sm-menu"
+  [class]="smMenuClass + ' ' + panelClasses"
+  [overlapTrigger]="false"
+  [hasBackdrop]="showOverlay"
+  (closed)="menuClosed.emit()"
+>
+  <mat-form-field appearance="fill" *ngIf="enableSearch" smClickStopPropagation class="tags-menu-input w-100 no-bottom">
+    <input matInput [placeholder]="searchPlaceholder" (input)="searchValueChanged.emit($event)" [(ngModel)]="searchValue" autocomplete="off">
+    <i matSuffix class="fa me-3" [class]="searchValue ? 'fa-times pointer' : 'fa-search'" (click)="searchValue && clearSearch()"></i>
+  </mat-form-field>
+  <div class="results" [class.search-results]="enableSearch">
+    <ng-content></ng-content>
+  </div>
+  <div class="fixed-options">
+    <mat-divider *ngIf="fixedOptionsSubheader || refFixedOptions.hasChildNodes()"></mat-divider>
+    <div *ngIf="fixedOptionsSubheader" class="fixed-options-subheader">
+      {{fixedOptionsSubheader}}
+    </div>
+    <div #refFixedOptions><ng-content select="[fixedOptions]"></ng-content></div>
+  </div>
+</mat-menu>

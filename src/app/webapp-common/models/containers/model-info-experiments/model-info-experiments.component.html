@@ -1,0 +1,10 @@
+<div class="lineage-container">
+<div class="d-flex align-items-center pb-3">
+  <h4 class="m-0">创建者</h4> <a class="ms-3"
+                                     target="_blank" [routerLink]="selectedModelCreatingTaskLink$ | async">{{(selectedModel$ | async)?.task?.name}}</a>
+  <sm-id-badge class="ms-3" *ngIf="(selectedModel$ | async)?.task?.id" [id]="(selectedModel$ | async)?.task?.id"
+                (copied)="copyToClipboard()"></sm-id-badge>
+</div>
+<hr>
+<sm-model-experiments-table></sm-model-experiments-table>
+</div>

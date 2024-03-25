@@ -1,0 +1,133 @@
+@import "variables";
+
+:host {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+
+  a[href]:hover {
+    color: white;
+  }
+
+  sm-simple-table-2 {
+    flex: 1;
+    overflow: auto;
+  }
+
+  .experiments-table .body {
+    display: grid !important;
+    grid-template-columns: 30px minmax(30px, auto) minmax(150px, 1fr) 30px;
+    grid-gap: 12px;
+    padding: 0 18px;
+
+    .al-icon {
+      line-height: 36px;
+    }
+  }
+  .experiments-table ::ng-deep .headers {display: none;}
+
+  .workers-table {
+    ::ng-deep .headers, .body {
+      display: grid !important;
+      grid-template-columns: minmax(150px, 1fr) minmax(150px, 1fr) minmax(150px, 1fr);
+      grid-gap: 12px;
+      padding: 0 18px;
+    }
+  }
+
+  ::ng-deep .table-row {
+    height: 40px;
+    background-color: $blue-800 !important;
+    border-bottom: 1px solid $dark-border;
+    padding: 0 !important;
+    line-height: 40px !important;
+    &:last-of-type {border-bottom-color: $dark-border !important;}
+  }
+
+  sm-simple-table-2 ::ng-deep .headers {
+    height: 39px;
+    color: $blue-300;
+    border-bottom-color: $blue-600 !important;
+  }
+
+
+
+  .tabs-container {
+    position: relative;
+    height: 41px;
+    background-color: $blue-700;
+    border-bottom: 1px solid $dark-border;
+
+    ::ng-deep .navbar-item {
+      height: 100%;
+      padding: 0 15px;
+      margin: 0 1px;
+    }
+  }
+
+  .close {
+    position: absolute;
+    right: 24px;
+    top: 12px;
+    color: $blue-300;
+    &:hover {
+      color: $blue-200;
+    }
+  }
+
+  sm-navbar-item[disabled] {
+    pointer-events: none;
+
+    .bottom {
+      display: none;
+    }
+  }
+
+  ::ng-deep .table-row {
+    .row:hover {
+      background-color: $blue-650;
+    }
+    .al-icon {
+      visibility: hidden;
+      color: $blue-300;
+      vertical-align: middle;
+      transition: color 0.35s;
+      &.al-ico-drag {
+        visibility: visible;
+      }
+      &:hover {
+        color: $blue-100;
+      }
+    }
+    &:hover .al-icon {
+      visibility: visible;
+    }
+  }
+
+  .column {
+    width: 36px;
+    padding: 0 8px;
+    &:last-child {
+      width: 60px;
+    }
+  }
+
+  .flex-column {
+    flex: 1;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+  }
+
+  .empty-state {
+    flex-grow: 1;
+    padding: 24px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+  }
+
+}
+
+

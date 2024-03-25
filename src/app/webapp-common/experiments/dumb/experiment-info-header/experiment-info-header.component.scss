@@ -1,0 +1,155 @@
+@import "../../../layout/layout.scss";
+
+:host {
+  display: block;
+  padding: 0 24px;
+  .tags{
+    grid-area: tags;
+    overflow: hidden;
+  }
+  .line-item{
+    margin-right: 21px;
+    height: 24px;
+    &:last-child{
+      margin-right: 6px;
+      margin-left: 10px;
+    }
+  }
+
+  .experiment-icon {
+    margin: 0 20px 0 0;
+  }
+
+  .comment {
+    height: 24px;
+  }
+  .middle-col {
+    height: 28px;
+    flex-grow: 1;
+    display: flex;
+    align-items: center;
+    overflow: hidden;
+    padding-left: 60px;
+  }
+
+  .experiment-name {
+    display: flex;
+    align-items: center;
+    font-size: 15px;
+    min-height: 32px;
+    width: 100%;
+    font-weight: 500;
+
+    span {
+      text-overflow: ellipsis;
+      overflow: hidden;
+      white-space: nowrap;
+    }
+  }
+
+  .experiment-type {
+    white-space: nowrap;
+    font-size: 15px;
+    margin-right: 12px;
+  }
+
+  .experiment-id {
+    margin-right: 6px;
+  }
+  .experiment-name-cont{
+    max-width: calc(100% - 320px);
+    .edit-name {
+      overflow: hidden;
+    }
+  }
+
+
+
+  .menu-button, .menu-button &:hover, .menu-button &:focus {
+    cursor: pointer;
+    font-weight: bold;
+    font-size: 12px;
+    text-decoration: none;
+  }
+
+  .btn.btn-icon:not([disabled]):hover {
+    filter: none;
+  }
+
+  .btn {
+    &:hover {
+      .al-icon.al-ico-info-min {
+        color: #212529;
+      }
+    }
+  }
+
+  .shared {
+    margin: 0 24px;
+    display: flex;
+    align-items: center;
+  }
+
+  .status {
+    font-size: 12px;
+    font-weight: 500;
+    height: 18px;
+    line-height: 18px;
+    padding: 0 6px;
+    border-radius: 4px;
+    margin-left: 14px;
+    color: white;
+    background-color: #FFFFFF;
+
+    &.published {
+      color: $blue-600;
+      background-color: $neon-yellow;
+    }
+
+    &.in_progress {
+      background-color: #50e3c2;
+      color: $blue-600;
+    }
+
+    &.queued {
+      color: $blue-600;
+      background-color: #c4f0e4;
+    }
+
+    &.created {
+      color: $blue-600;
+      background-color: #dbdee6;
+    }
+
+    &.failed {
+      background-color: $strong-red;
+    }
+
+    &.completed, &.stopped {
+      background-color: $completed-blue;
+    }
+  }
+
+  .right-buttons {
+    display: flex;
+    align-items: center;
+    margin-right: 24px;
+    margin-left: auto;
+
+    .btn-icon {
+      margin-right: 30px;
+    }
+
+    sm-experiment-menu {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      width: 24px;
+      height: 24px;
+    }
+  }
+
+  sm-tag-list {
+    max-width: 100%;
+  }
+}

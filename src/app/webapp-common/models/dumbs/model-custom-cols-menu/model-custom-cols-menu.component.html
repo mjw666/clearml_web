@@ -1,0 +1,50 @@
+<sm-menu
+  [iconClass]="'al-icon al-ico-settings al-color pointer create-new-icon ' + (disabled ? 'blue-600' : 'blue-300')"
+  buttonTooltip="自定义表格"
+  smMenuClass="light-theme custom-columns"
+  [showButton]="false"
+  [style.pointer-events]="disabled ? 'none' : 'initial'"
+  (menuClosed)="customColumnMode = customColumnModeEnum.Standard"
+>
+  <div *ngIf="customColumnMode === customColumnModeEnum.Standard; else selectCol" (click)="$event.stopPropagation()" class="main">
+    <sm-custom-columns-list
+      [tableCols]="tableCols"
+      [isLoading]="isLoading"
+      (removeColFromList)="removeColFromList.emit($event)"
+      (selectedTableColsChanged)="selectedTableColsChanged.emit($event)"
+    >
+    </sm-custom-columns-list>
+    <div [ngClass]="{loading: isLoading, loaded: !isLoading}">
+      <div class="sm-menu-header">添加自定义列</div>
+      <div class="custom-column-buttons">
+        <div class="add-button meta-button"
+             smClickStopPropagation
+             [class.disabled]="!metadataKeys?.length"
+             (click)="selectMetadataKeys(customColumnModeEnum.Metrics); $event.stopPropagation()"
+        ><i class="al-icon al-ico-plus sm-md me-1"></i><span class="caption">指标</span>
+        </div>
+        <div class="add-button meta-button"
+             smClickStopPropagation
+             [class.disabled]="!metadataKeys?.length"
+             (click)="selectMetadataKeys(customColumnModeEnum.Metadata); $event.stopPropagation()"
+        ><i class="al-icon al-ico-plus sm-md me-1"></i><span class="caption">元数据</span>
+        </div>
+      </div>
+    </div>
+  </div>
+<ng-template #selectCol>
+  <sm-select-metadata-keys-custom-cols *ngIf="customColumnMode === customColumnModeEnum.Metadata"
+                                       [tableCols]="tableCols"
+                                       [metadataKeys]="metadataKeys"
+                                       (goBack)="setCustomColumnMode(customColumnModeEnum.Standard)"
+                                       (addOrRemoveMetadataKeyFromColumns)="addOrRemoveMetadataKeyFromColumns.emit($event)">
+  </sm-select-metadata-keys-custom-cols>
+  <sm-select-metric-for-custom-col *ngIf="customColumnMode === customColumnModeEnum.Metrics"
+                                   [tableCols]="tableCols"
+                                   [metricVariants]="metricVariants"
+                                   [skipValueType]="skipValueType"
+                                   (goBack)="setCustomColumnMode(customColumnModeEnum.Standard)"
+                                   (selectedMetricToShow)="selectedMetricToShow.emit($event)">
+  </sm-select-metric-for-custom-col>
+</ng-template>
+</sm-menu>

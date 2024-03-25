@@ -1,0 +1,36 @@
+<mat-expansion-panel *ngFor="let item of showList | keyvalue | sort:'key'; trackBy: trackByFn"
+                     [expanded]="expanded[item.key]"
+                     [hideToggle]="!item.value.hasChildren"
+                     togglePosition="before"
+                     [class.no-children]="!item.value.hasChildren">
+  <mat-expansion-panel-header
+    #panelH
+    expandedHeight="40px"
+    collapsedHeight="40px"
+    [class.has-children]="item.value.hasChildren"
+    (click)="selectedItem(item, panelH)"
+  >
+    <mat-panel-title>
+    <div class="header-container" [class.unchecked]="!(isHideAllMode(item.value) || item.value.visible)">
+      <div class="ellipsis item-key" [smTooltip]="item.key" [matTooltipShowDelay]="500"  smShowTooltipIfEllipsis>{{item.key}}</div>
+    </div>
+    </mat-panel-title>
+    <mat-panel-description>
+      <i (click)="groupCheck(item); $event.stopPropagation()"
+         [class]="(isHideAllMode(item.value) || item.value.visible? checkIcon[0] : checkIcon[1]) + ' al-icon sm'"
+      ></i>
+    </mat-panel-description>
+
+  </mat-expansion-panel-header>
+  <ul class="list">
+    <li
+      *ngFor="let listItem of item.value.data | keyvalue; trackBy: trackByFn"
+      class="list-item"
+      (click)="itemSelect.emit(item.key + listItem.key)"
+      [class.unchecked]="!$any(listItem.value).visible"
+    >
+      <span class="pointer ellipsis w-100 list-item-key" [smTooltip]="listItem.key" [matTooltipShowDelay]="500"  smShowTooltipIfEllipsis>{{listItem.key}}</span>
+      <i (click)="itemCheck.emit( {pathString: item.key+ listItem.key, parent: item.key}); $event.stopPropagation()" [class]="($any(listItem.value).visible ? checkIcon[0] : checkIcon[1]) + ' al-icon sm'"></i>
+    </li>
+  </ul>
+</mat-expansion-panel>

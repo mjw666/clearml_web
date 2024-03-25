@@ -1,0 +1,28 @@
+:host {
+  .space-line {
+    height: 14px;
+  }
+
+  sm-models-table {
+    display: block;
+    height: 100%;
+  }
+
+  .model-table-container {
+    display: flex;
+    flex-direction: column;
+    gap: 18px;
+    height: calc(100% - 164px);
+    width: 92vw;
+  }
+
+  .buttons {
+    display: flex;
+    justify-content: center;
+    gap: 16px;
+  }
+}
+
+::ng-deep p-table table {
+  width: 100% !important;
+}

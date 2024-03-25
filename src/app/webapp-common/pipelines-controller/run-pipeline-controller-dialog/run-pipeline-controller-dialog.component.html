@@ -1,0 +1,66 @@
+<sm-dialog-template [closeOnX]="false" (xClicked)="closeDialog(false)" header="新建"
+                    [pageHeader]="title"
+                    iconClass="al-color blue-300 al-ico-pipelines">
+  <ng-form #enqueueForm="ngForm" class="d-flex flex-column light-theme form-container">
+    <input #fakeInput name="Don't remove - it take the autofocus dropdown" style="opacity: 0; height: 0; width: 0">
+    <div class="section-title" *ngIf="params?.length > 0">参数</div>
+    <div *ngFor="let param of params" class="param-line">
+      <div class="param-key ellipsis" smShowTooltipIfEllipsis [smTooltip]="param.name">{{param.name}}</div>
+      <ng-container [ngSwitch]="param.type">
+        <mat-form-field appearance="outline" class="no-bottom" *ngSwitchCase="'float'">
+          <input #floatInput="ngModel"  type="text" matInput [(ngModel)]="param.value" [name]="param.name" pattern="[+-]?([0-9]*[.])?[0-9]+" >
+          <mat-error
+            *ngIf="floatInput?.errors && floatInput?.errors['pattern']">
+            请提供浮点数
+          </mat-error>
+        </mat-form-field>
+        <mat-form-field appearance="outline" class="no-bottom" *ngSwitchCase="'int'">
+          <input  type="text" step="1" matInput [(ngModel)]="param.value" #intInput="ngModel" [name]="param.name" pattern="^[-\d]\d*$">
+          <mat-error
+            *ngIf="intInput?.errors && intInput?.errors['pattern']">
+            请提供一个整数
+          </mat-error>
+        </mat-form-field>
+        <mat-form-field appearance="outline" class="no-bottom" *ngSwitchDefault>
+          <input matInput [(ngModel)]="param.value" [name]="param.name">
+        </mat-form-field>
+      </ng-container>
+    </div>
+    <div class="section-title d-flex align-items-center">配置</div>
+    <div class="param-line">
+      <div class="param-key" [class.error]="queueInputModel?.errors?.required">工作流控制器队列*</div>
+      <mat-form-field
+        appearance="outline" class="no-bottom queue-select"
+        (mousedown)="selectedQueue && !isFocused(queueInput) && (selectedQueue = null)"
+      >
+        <input type="text"
+               #queueInput
+               #queueInputModel="ngModel"
+               matInput
+               name="queue"
+               [(ngModel)]="selectedQueue"
+               [matAutocomplete]="auto"
+               required
+               data-id="queueFiled">
+        <i matSuffix
+           class="al-icon sm-md search-icon me-2"
+           [class]="queueInputModel.value ? 'al-ico-dialog-x pointer':'al-ico-search'"
+           (click)="queueInputModel.value && (selectedQueue = null)"
+        ></i>
+        <mat-autocomplete autoActiveFirstOption #auto="matAutocomplete" [displayWith]="displayFn" class="light-theme">
+          <mat-option *ngFor="let queue of queues | filter:queueInput.value:'name'" [value]="queue">
+            <div [smSearchText]="selectedQueue?.name">{{queue.name }}</div>
+          </mat-option>
+        </mat-autocomplete>
+      </mat-form-field>
+    </div>
+  </ng-form>
+  <div class="buttons">
+    <button (click)="closeDialog(false)" class="btn btn-outline-neon" data-id="cancleNewRun">
+      取消
+    </button>
+    <button [disabled]="enqueueForm.invalid" (click)="closeDialog(true)" class="btn btn-neon yes-button" data-id="confirmNewRun">
+      确定
+    </button>
+  </div>
+</sm-dialog-template>

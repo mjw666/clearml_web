@@ -1,0 +1,33 @@
+<div *ngFor="let kpi of kpis">
+  <sm-labeled-row label="{{kpi.label}}:">
+    <div *ngIf="!kpi.href">
+      <span [class.preserve-spaces]="kpi.downloadable">{{kpi.value}}</span>
+      <span *ngIf="kpi.downloadable">
+        <sm-copy-clipboard *ngIf="isLocalFile" [clipboardText]="kpi.value" [hideBackground]="true" [inline]="true" label=""></sm-copy-clipboard>
+        <i *ngIf="model?.uri && !isLocalFile"
+           class="pointer al-icon al-ico-download sm-md ms-2"
+           (click)="downloadModelClicked()"
+        ></i>
+      </span>
+    </div>
+    <div *ngIf="kpi.href && kpi.value">
+      <a [routerLink]="kpi.href">
+        {{kpi.value}}
+      </a>
+      <sm-copy-clipboard  [clipboardText]="kpi.task" [hideBackground]="true" [inline]="true" label=""></sm-copy-clipboard>
+    </div>
+    <div *ngIf="kpi.href && (!kpi.value) ">N/A</div>
+  </sm-labeled-row>
+</div>
+
+<sm-labeled-row label="描述:" labelClass="align-self-start">
+  <sm-inline-edit
+    [originalText]="model?.comment"
+    [editable]="model?.company?.id"
+    [multiline]="true"
+    (textChanged)="commentValueChanged($event)"
+    (inlineActiveStateChanged)="editExperimentComment($event)"
+    (cancel)="cancelEdit()"
+    >
+    <span class="preserve-spaces">{{!model? '-': (model?.comment | NA)}}</span></sm-inline-edit>
+</sm-labeled-row>

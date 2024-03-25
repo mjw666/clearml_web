@@ -1,0 +1,39 @@
+<sm-dialog-template *ngIf="!showButton; else content" iconClass="al-icon al-ico-datasets al-color blue-300" header="创建新数据集">
+  <ng-container *ngTemplateOutlet="content"></ng-container>
+</sm-dialog-template>
+<ng-template #content>
+  <div class="content">
+  <div class="code">
+    <div class="d-flex justify-content-between">
+      <div>
+        在你的Python代码中使用ClearML.<br>
+        运行这些代码片段作为一个快速示例(需要ClearML 1.7或更高版本).<br>
+        有关详细信息，请参阅 <a [class.dark]="showButton" href="https://clear.ml/docs/latest/docs/clearml_data" target="_blank" data-id="documentationLink">文档</a>
+      </div>
+    </div>
+    <div class="navbar">
+      <sm-navbar-item
+        direction="bottom"
+        header="CLI"
+        data-id="CLITab"
+        [active]="emptyStateTab==='cli'"
+        (click)="emptyStateTabClicked('cli')"></sm-navbar-item>
+      <sm-navbar-item
+        direction="bottom"
+        header="SDK"
+        data-id="SDKTab"
+        [active]="emptyStateTab==='sdk'"
+        (click)="emptyStateTabClicked('sdk')"
+      ></sm-navbar-item>
+    </div>
+    <sm-code-editor
+      *ngIf="showCode"
+      [code]="emptyStateTab === 'cli'? initDatasetCLICode: initDatasetSDKCode"
+      [readonly]="true"
+      [mode]="emptyStateTab === 'cli'? 'ace/mode/sh': 'ace/mode/python'"
+      [showCopyButton]="true"
+    ></sm-code-editor>
+  </div>
+  <div class="diagram"><i class="i-datasets-empty-state" data-id="emptyDataSetDiagram"></i></div>
+</div>
+</ng-template>

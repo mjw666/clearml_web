@@ -1,0 +1,105 @@
+@import "variables";
+
+:host {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+
+  a[href]:hover {
+    color: white;
+  }
+
+  .worker-info-container {
+    display: grid;
+    grid-template-columns: minmax(100px, 2fr) minmax(100px, 1fr);
+    gap: 12px;
+    padding: 12px;
+  }
+
+  .queues-table-container {
+    flex: 1;
+    overflow: auto;
+  }
+
+  ::ng-deep .table-row {
+    height: 40px;
+    background-color: $blue-800 !important;
+    border-bottom: 1px solid $dark-border;
+    padding: 0 !important;
+    display: flex;
+    &:last-of-type {border-bottom-color: $dark-border !important;}
+  }
+
+  ::ng-deep {
+    .headers {
+      height: 39px;
+      align-items: center;
+      line-height: normal !important;
+      border-bottom: 1px solid $dark-border !important;
+      color: $blue-300;
+    }
+  }
+
+  sm-simple-table-2 ::ng-deep .headers, .body {
+    width: 100%;
+    display: grid !important;
+    grid-template-columns: 30% 50% 15%;
+    grid-gap: 12px;
+    padding: 0 12px;
+    line-height: 40px;
+  }
+
+  .tabs-container {
+    position: relative;
+    height: 41px;
+    background-color: $blue-700;
+    border-bottom: 1px solid $dark-border;
+
+    ::ng-deep .navbar-item {
+      height: 100%;
+      padding: 0 15px;
+      margin: 0 1px;
+    }
+  }
+
+  .close {
+    position: absolute;
+    right: 24px;
+    top: 12px;
+    color: $blue-300;
+    &:hover {
+      color: $blue-200;
+    }
+  }
+
+  .id-cell {
+    .value {
+      flex: 1;
+    }
+
+    .copy-btn {
+      min-width: 30px;
+      margin-left: 5px;
+      visibility: hidden;
+
+      ::ng-deep .btn {
+        padding: 0;
+      }
+    }
+
+    &:hover {
+      .copy-btn {
+        visibility: visible;
+      }
+    }
+  }
+
+  .empty-state {
+    flex-grow: 1;
+    padding: 24px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+  }
+}

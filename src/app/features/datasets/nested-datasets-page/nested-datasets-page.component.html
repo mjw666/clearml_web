@@ -1,0 +1,57 @@
+<sm-nested-project-view-page
+  [projectsList]="projectsList$ | async"
+  [projectsOrderBy]="projectsOrderBy$ | async"
+  [projectsSortOrder]="projectsOrderBy$ | async"
+  [noMoreProjects]="noMoreProjects$ | async"
+  [allExamples]="allExamples"
+  [cardContentTemplateRef]="cardContent"
+  [entityType]="entityType"
+  (cardClicked)="projectCardClicked($event)"
+  (deleteProjectClicked)="deleteProject($event)"
+  (projectNameChanged)="projectNameChanged($event)"
+  (orderByChanged)="orderByChanged($event)"
+  (loadMore)="loadMore()"
+  (toggleNestedView)="toggleNestedView($event)"
+>
+
+  <button create-button
+          class="btn btn-cml-primary d-flex align-items-center"
+          (click)="createExamples()">
+    <i class="al-icon al-ico-add sm me-2"></i>创建数据集
+  </button>
+
+  <div empty-state class="empty-datasets">
+    <div class="title-icon"><i class="al-icon al-ico-datasets xxl"></i></div>
+    <div class="title">暂无数据</div>
+    <div class="sub-title">运行第一个数据集，让他显示在这
+      <ng-container *ngIf="allExamples"> or <a href="" (click)="$event.preventDefault(); createExamples()" class="link">生成
+        案例
+      </a></ng-container>
+    </div>
+    <sm-dataset-empty [showButton]="true"></sm-dataset-empty>
+  </div>
+
+</sm-nested-project-view-page>
+
+<ng-template #cardContent let-project>
+  <sm-circle-counter
+    [counter]="project.id === '*' ? '∞' : project.stats?.datasets?.count ?? '0'"
+    [label]="'DATASETS'"
+    [type]="project.stats?.datasets?.count===0 ? circleTypeEnum.empty : circleTypeEnum.pending"></sm-circle-counter>
+  <sm-circle-counter label="使用中的标签" [counter]="[]">
+    <sm-tag-list
+      *ngIf="!hideMenu; else: ReadOnlyTags"
+      class="tags-list-counter"
+      [readonly]="true"
+      [class.empty-tags]="!(project.stats?.datasets?.tags.length > 0)"
+      tagsList
+      [tags]="project.stats?.datasets?.tags"
+      smClickStopPropagation
+    ></sm-tag-list>
+  </sm-circle-counter>
+  <ng-template #ReadOnlyTags>
+    <sm-tag-list [tags]="project.tags"></sm-tag-list>
+  </ng-template>
+</ng-template>
+
+

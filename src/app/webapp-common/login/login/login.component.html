@@ -1,0 +1,67 @@
+<div class="login-form" [class]="darkTheme ? 'dark-theme' : 'light-theme'">
+  <div class="login-section">
+    <section>
+      <img [src]="darkTheme ? 'assets/logo-white.svg' : 'assets/logo.svg'" class="logo" alt="Clear ML Logo">
+      <div *ngIf="isInvite || showSimpleLogin" class="login-title">{{loginTitle}}</div>
+      <div *ngIf="notice" class="login-notice">{{notice}}</div>
+      <div *ngIf="!loginMode" class="circle"></div>
+      <form #loginForm="ngForm" [class.d-none]="!loginMode">
+        <div class="username-input pt-4" *ngIf="showSimpleLogin || [loginModeEnum.password, loginModeEnum.simple].includes(loginMode)">
+          <label for="name">{{loginMode === loginModeEnum.password ? '用户名' : '用户名'}}</label>
+          <input type="text"
+                 #nameInput
+                 id="name"
+                 name="name"
+                 autofocus
+                 [(ngModel)]="loginModel.name"
+                 [matAutocomplete]="auto"
+                 pattern=".*\S.*"
+                 maxlength="70"
+                 required>
+        </div>
+        <div class="username-input" *ngIf="loginMode === loginModeEnum.password">
+          <label for="password">密码</label>
+          <input type="password"
+                 id="password"
+                 name="password"
+                 [(ngModel)]="loginModel.password"
+                 required>
+        </div>
+        <div *ngIf="loginFailed" class="errors">
+          Invalid User/Password combination
+        </div>
+        <ng-container *ngIf="showSimpleLogin || [loginModeEnum.password, loginModeEnum.simple].includes(loginMode)">
+          <button class="btn btn-neon" (click)="login()"
+                  [disabled]="loginForm.touched && (!loginForm.valid || showSpinner)">
+            <mat-spinner class="spinner" *ngIf="showSpinner" diameter="16" color="accent"></mat-spinner>
+            {{buttonCaption}}
+          </button>
+        </ng-container>
+
+        <mat-autocomplete #auto="matAutocomplete">
+          <mat-option *ngFor="let option of filteredOptions | async" [value]="option.name">
+            {{option.name}}
+          </mat-option>
+        </mat-autocomplete>
+        <ng-content></ng-content>
+        <div class="terms-of-use" *ngIf="touLink && !hideTou">
+          <span>By signing up you agree to Allegro AI’s <a class="link" [href]="touLink" target="_blank">Privacy Policy and Terms of Use</a>.</span>
+        </div>
+      </form>
+    </section>
+  </div>
+  <div *ngIf="showGitHub" class="marketing-content-bottom">
+    <ntkme-github-button user="allegroai" repo="clearml" size="large" [count]="true"></ntkme-github-button>
+    <div class="github-text mb-3">If you ❤️ ClearML, ⭐ us on <a class="link" href="https://github.com/allegroai/clearml">GitHub</a></div>
+    <div class="community-links">
+      <a class="link" target="_blank" [href]="environment.slackLink">
+        <i class="al-icon sm al-ico-slack"></i>
+        <span class="text">Join our Community on Slack</span>
+      </a>
+      <a class="link" href="mailto:support@clear.ml" target="_blank">
+        <i class="al-icon sm al-ico-email"></i>
+        <span class="text">Contact Us</span>
+      </a>
+    </div>
+  </div>
+</div>

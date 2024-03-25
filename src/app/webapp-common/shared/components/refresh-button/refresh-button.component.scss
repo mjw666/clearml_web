@@ -1,0 +1,51 @@
+@import "variables";
+
+:host {
+  display: inline-block;
+
+  .no-wrap {
+    white-space: nowrap;
+  }
+
+  .refresh-wrapper {
+    width: 24px;
+    padding-left: 5px;
+    overflow: hidden;
+    transition: all 0.5s 0.5s, background 0.5s 0s;
+
+    &.allow-autorefresh:hover {
+      background: $blue-600;
+      border-radius: 4px;
+      width: 164px;
+      padding-right: 12px;
+    }
+  }
+
+  .refresh-icon {
+    margin: 10px;
+    font-size: 20px;
+    color: $blue-300;
+  }
+
+  .autorefresh-checkbox {
+    margin-left: 6px;
+  }
+
+  &.light-theme {
+    border-radius: 4px;
+
+    .refresh-wrapper.allow-autorefresh:hover {
+      background: $blue-25;
+    }
+
+    .al-icon {
+      .path1:before {
+        color: $blue-500
+      }
+      .path2:before {
+        color: $purple
+      }
+    }
+  }
+
+}

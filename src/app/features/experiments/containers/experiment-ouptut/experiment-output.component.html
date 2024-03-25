@@ -1,0 +1,37 @@
+<sm-overlay [backdropActive]="backdropActive$|async"></sm-overlay>
+<sm-info-header-status-icon-label
+  [status]=" (selectedExperiment)?.status || selectedExperiment?.status"
+></sm-info-header-status-icon-label>
+<div class="experiment-output-container light-theme" [class.minimized]="minimized">
+  <sm-experiment-info-header
+    [experiment]="selectedExperiment"
+    [infoData]="infoData$ | async"
+    [editable]="!isExample"
+    [showMenu]="true"
+    [minimized]="minimized"
+    [isSharedAndNotOwner]="isSharedAndNotOwner$ | async"
+    (experimentNameChanged)="updateExperimentName($event)"
+    (closeInfoClicked)="closePanel()"
+    (minimizeClicked)="minimizeView()"
+    (maximizedClicked)="maximize()"
+  >
+  </sm-experiment-info-header>
+    <sm-experiment-info-navbar [minimized]="minimized" [splitSize]="selectSplitSize$ | async">
+    <span class="refresh-position" refresh>
+      <sm-experiment-settings
+        [class.maximized]="!minimized"
+        [showSettings]="routerConfig.includes('scalar') && minimized"
+        (toggleSettings)="toggleSettingsBar()">
+      </sm-experiment-settings>
+      <sm-refresh-button
+        *ngIf=" ! minimized"
+        class="light-theme"
+        (setAutoRefresh)="setAutoRefresh($event)"
+      >
+      </sm-refresh-button>
+    </span>
+    </sm-experiment-info-navbar>
+  <div class="output-body" [class.minimized]="minimized" #scrollContainer>
+    <router-outlet class="output-outlet" (activate)="onActivate($event, scrollContainer)"></router-outlet>
+  </div>
+</div>

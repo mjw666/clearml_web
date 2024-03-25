@@ -1,0 +1,9 @@
+<sm-menu
+  panelClasses="light-theme"
+  [header]="(showOnlyUserWork$ | async) ? '我的工作': '团队工作'"
+  [prefixIconClass]="'me-1 al-icon ' + ((showOnlyUserWork$ | async)? 'al-ico-me': 'al-ico-team')"
+  class="menu" data-id="Team's Work">
+  <sm-menu-item itemLabel="我的工作" (itemClicked)="userFilterChanged(true)" iconClass="al-icon al-ico-me" data-id="My Work Option"></sm-menu-item>
+  <sm-menu-item itemLabel="团队工作" (itemClicked)="userFilterChanged(false)"
+                iconClass="al-icon al-ico-team" data-id="Team's Work Option"></sm-menu-item>
+</sm-menu>

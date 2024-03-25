@@ -1,0 +1,69 @@
+@import "variables";
+
+.color-picker-wrapper {
+  position: absolute;
+  top: calc(50% - 200px);
+  left: calc(50% + 260px);
+
+  ::ng-deep .arrow {
+    display: none;
+  }
+  ::ng-deep .color-picker {
+    border-radius: 4px;
+    box-shadow: 0 3px 6px 0 rgba(0, 0, 0, 0.16);
+    border-color: $blue-200;
+    .saturation-lightness {
+      border-radius: 3px 3px 0 0;
+    }
+    .preset-area {
+      hr {
+        margin-top: 0;
+      }
+      .preset-color {
+        margin: 4px;
+        border-color: white;
+        box-shadow: 0 0 0 1px $blue-200;
+        &:hover {
+          box-shadow: 0 0 0 1px $blue-400;
+        }
+      }
+    }
+    .button-area {
+      padding: 16px;
+    }
+  }
+}
+
+.tags-list {
+  height: 300px;
+}
+
+.tag-line {
+  display: grid;
+  align-items: center;
+  grid-template-columns: 1fr 40px 1px;
+  gap: 12px;
+  height: 32px;
+
+  .caption {
+    color: $blue-800;
+  }
+
+  .tag {
+    margin-right: 1px;
+    text-align: center;
+    height: 18px;
+    line-height: 17px;
+    border-radius: 4px;
+    border: 1px solid #fff;
+  }
+  &:hover {
+    .tag {
+      box-shadow: 0 0 0 1px $blue-300;
+    }
+  }
+}
+
+.btn-row {
+  padding-top: 24px;
+}

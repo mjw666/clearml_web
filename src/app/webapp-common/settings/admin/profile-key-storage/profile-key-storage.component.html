@@ -1,0 +1,13 @@
+<div class="title">
+  云端接入Web应用 <i
+  class="al-icon al-ico-info-circle sm info ms-3"
+  smTooltip="设置本地、浏览器缓存、访问令牌，以方便检索云存储的资源"
+
+></i>
+</div>
+<div class="section">
+  <sm-s3-access
+    [s3bucketCredentials]="s3BucketCredentials$ | async"
+    (s3bucketCredentialsChanged)="onS3BucketCredentialsChanged($event)">
+  </sm-s3-access>
+</div>

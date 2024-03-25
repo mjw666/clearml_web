@@ -1,0 +1,72 @@
+@import 'variables';
+
+.add-button {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 15px;
+}
+
+.custom-column-buttons {
+  display: flex;
+  font-weight: 500;
+  color: $purple;
+  cursor: pointer;
+  font-size: 14px;
+
+  div:not(.disabled):hover {
+    color: $blue-300;
+    transition: color 0.3s;
+  }
+
+  .metrics-button {
+    width: 50%;
+    white-space: nowrap;
+
+    &.only-metrics {
+      width: 100%;
+    }
+
+    .caption {
+      margin-top: 4px;
+    }
+    &:first-child:not(.only-metrics) {
+      border-right: 1px solid $blue-200;
+    }
+  }
+}
+
+.loading {
+  overflow: hidden;
+  height: 0;
+  opacity: 0;
+}
+
+.loaded {
+  height: initial;
+  opacity: 1;
+  transition: opacity 0.3s;
+}
+
+.loader {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  overflow: hidden;
+  height: 100px;
+}
+
+.disabled {
+  opacity: 0.5;
+  cursor: default;
+}
+
+sm-select-metric-for-custom-col {
+  display: block;
+  height: 640px;
+  max-height: calc(100vh - 120px);
+}
+
+.custom-columns-disabled {
+  pointer-events: none;
+}

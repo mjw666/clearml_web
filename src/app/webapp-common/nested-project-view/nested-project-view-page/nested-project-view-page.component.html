@@ -1,0 +1,53 @@
+<div class="sm-card-list-layout projects"
+     [class.in-empty-state]="!(projectsList?.length !== 0 || searching)">
+  <sm-projects-header
+    (orderByChanged)="orderByChanged.emit($event)"
+    [sortByField]="projectsOrderBy"
+    [sortOrder]="projectsSortOrder"
+    [enableTagsFilter]="true"
+    [tags]="projectsTags"
+  >
+    <sm-button-toggle
+      left-items
+      class="ms-3"
+      [value]="true"
+      [options]="[
+             {value: false, icon: 'al-ico-flat-view',  label: '列表视图'},
+             {value: true, icon:'al-ico-project-path', label: '项目视图'}
+            ]"
+      (valueChanged)="toggleNestedView.emit($event)"
+    ></sm-button-toggle>
+    <div class="d-flex">
+      <ng-content select="[create-button]"></ng-content>
+      <ng-content select="[extendedButtons]"></ng-content>
+    </div>
+  </sm-projects-header>
+  <ng-container *ngIf="projectsList?.length !== 0 || searching; else emptyState">
+    <ng-container *ngFor="let project of projectsList; trackBy: trackById ; let last=last; let index=index">
+      <sm-nested-card
+        *ngIf="index + totalVirtualCards < projectsList.length || noMoreProjects || searching"
+        [hideMenu]="['All Experiments'].includes(project.name) || project['isRoot'] || isExample(project)"
+        [entityType]="entityType"
+        [project]="project"
+        (projectCardClicked)="cardClicked.emit($event)"
+        (projectNameChanged)="projectNameChanged.emit({id: project.id, name: $event})"
+      >
+        <ng-container *ngTemplateOutlet="cardContentTemplateRef; context: {$implicit: project}"></ng-container>
+        <div card-footer class="footer-tags" *ngIf="cardContentFooterTemplateRef">
+          <ng-container *ngTemplateOutlet="cardContentFooterTemplateRef; context: {$implicit: project}"></ng-container>
+        </div>
+
+      </sm-nested-card>
+    </ng-container>
+  </ng-container>
+
+  <div class="load-more" *ngIf="noMoreProjects === false && projectsList?.length > 0">
+    <button (click)="loadMore.emit()" class="btn btn-cml-primary load-more-btn">加载更多</button>
+  </div>
+</div>
+<ng-template #emptyState>
+  <ng-content select="[empty-state]"></ng-content>
+</ng-template>
+
+
+

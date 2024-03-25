@@ -1,0 +1,44 @@
+<mat-drawer-container autosize class="light-theme h-100">
+  <mat-drawer #drawer [opened]="!minimized" [mode]="minimized ? 'over' : 'side'" [disableClose]="!minimized">
+    <i class="close al-icon al-ico-dialog-x sm-md" *ngIf="minimized" (click)="drawer.close()"></i>
+    <div class="list-container">
+      <sm-selectable-filter-list
+        *ngIf="plotsList !== undefined"
+        checkAllIcon="al-ico-show"
+        placeholder="查找图表"
+        [list]="plotsList"
+        [checkedList]="listOfHidden$ | async"
+        [searchTerm]="searchTerm"
+        (itemSelect)="metricSelected($event)"
+        (hiddenChanged)="hiddenListChanged($event)"
+        (searchTermChanged)="searchTermChanged($event)"
+      >
+      </sm-selectable-filter-list>
+    </div>
+  </mat-drawer>
+  <mat-drawer-content class="overflow-hidden">
+    <div class="hover-button" *ngIf="minimized">
+      <button
+        class="btn btn-secondary"
+        (click)="drawer.open()"
+        smTooltip="切换图表"
+      >
+        <i class="al-icon al-ico-eye-outline"></i>
+      </button>
+    </div>
+    <sm-experiment-graphs
+      [class.dark-theme]="dark"
+      [isGroupGraphs]="true"
+      [hiddenList]="listOfHidden$ | async"
+      [metrics]="graphs"
+      [legendStringLength]="minimized ? 14 : 19"
+      [minimized]="minimized"
+      [splitSize]="splitSize$ | async"
+      [isDarkTheme]="dark"
+      [exportForReport]="!modelsFeature"
+      (createEmbedCode)="createEmbedCode($event)"
+      (resetGraphs)="resetMetrics()"
+    >
+    </sm-experiment-graphs>
+  </mat-drawer-content>
+</mat-drawer-container>

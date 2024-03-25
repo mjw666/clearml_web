@@ -1,0 +1,16 @@
+@import "mixins/link";
+
+:host {
+  display: flex;
+  flex-direction: column;
+
+  @include link();
+
+  .preserve-spaces {
+    white-space: pre-wrap;
+  }
+
+  ::ng-deep .editable-div .form-control {
+    height: 74px;
+  }
+}

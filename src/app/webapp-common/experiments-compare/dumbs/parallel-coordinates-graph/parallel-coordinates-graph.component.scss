@@ -1,0 +1,108 @@
+@import "variables";
+
+:host {
+  display: block;
+  position: relative;
+  height: 100%;
+  overflow: auto;
+
+  .actions {
+    position: absolute;
+    right: 22px;
+    top: 24px;
+    z-index: 1;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+  }
+
+  .dot {
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    right: 0;
+    margin: auto;
+    height: 8px;
+    width: 8px;
+    border-radius: 50%;
+    display: inline-block;
+    vertical-align: middle;
+    transition: width 0.2s ease-in-out, height 0.2s ease-in-out;
+  }
+
+  .dot-container {
+    position: relative;
+    display: inline-block;
+    width: 9px;
+    height: 0.5rem;
+    padding-right: 10px;
+  }
+
+  .experiment-name {
+    padding: 4px 12px;
+    min-width: 200px;
+    display: flex;
+    align-items: center;
+  }
+
+  .graph-container {
+    height: 100%;
+    padding: 20px;
+  }
+
+  .legend-container {
+    padding: 0 64px;
+    flex-wrap: wrap;
+    background-color: white;
+    font-size: 14px;
+    max-height: calc(100% - 524px);
+    overflow: auto;
+  }
+
+  .task-name {
+    padding-left: 5px;
+    &.hide{
+      opacity: 0.5;
+    }
+  }
+
+  .graph-title {
+    width: 100%;
+    text-align: center;
+    font-size: 16px;
+    font-weight: 500;
+    color: $blue-400;
+  }
+  ::ng-deep .parcoords-control-view .y-axis.metric-column {
+    text.axis-title {
+      font-weight: bold;
+    }
+
+    path.domain {
+      stroke-width: 2px;
+      stroke: $blue-900;
+      stroke-opacity: 1;
+    }
+  }
+
+  .dark-theme {
+    .graph-title {
+      color: $blue-100;
+    }
+
+    .legend-container {
+      background-color: transparent;
+    }
+
+    .task-name {
+      color: $blue-100;
+    }
+
+  }
+}
+
+:host-context(.light-theme) {
+  .graph-container {
+    background-color: white;
+  }
+}

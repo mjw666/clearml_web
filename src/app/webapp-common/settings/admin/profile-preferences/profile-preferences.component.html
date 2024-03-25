@@ -1,0 +1,48 @@
+<div class="toggles">
+  <sm-usage-stats #usage [class.hidden]="!usage.shown"></sm-usage-stats>
+  <mat-slide-toggle
+    *ngIf="admin || usage.shown"
+    (change)="statsChange($event)"
+    [checked]="show$ | async"
+    color="accent"
+  ><span class="d-flex-center">显示隐藏项目<i class="al-icon al-ico-ghost sm ms-2"></i></span>
+  </mat-slide-toggle>
+  <mat-slide-toggle
+    (change)="toggleExamples($event)"
+    [checked]="hideExamples$ | async"
+    color="accent"
+  >不展示示例
+  </mat-slide-toggle>
+  <mat-slide-toggle
+    *ngIf="supportReScaling"
+    (change)="hidpiChange($event)"
+    [checked]="disableHidpi"
+    color="accent"
+  >禁用HiDPI浏览器规模覆盖
+    <i class="al-icon al-ico-info-circle sm info align-middle ms-3 me-3"
+        data-id="hidpiInfoIcon"
+       smTooltip="动态设置浏览器缩放以获得最佳页面布局。禁用默认桌面规模."
+    ></i>
+    <span class="reload" [class.highlight]="disableHidpiChanged" (click)="reload($event)">重新加载以应用</span>
+  </mat-slide-toggle>
+  <mat-slide-toggle
+    (change)="setNeverShowTipsAgain($event)"
+    [checked]="(neverShowTipsAgain$ | async)?.includes(popupId)"
+    color="accent"
+  >不定期展示使用技巧
+  </mat-slide-toggle>
+  <div class="d-flex">
+    <mat-slide-toggle
+      (change)="hideSpecificContainerArguments($event)"
+      [checked]="!!(hideRedactedArguments$ | async)"
+      color="accent"
+    >隐藏特定容器参数
+      <i class="al-icon al-ico-info-circle sm info align-middle ms-3 me-3"
+      data-id="hideSpecificargInfoIcon"
+         smTooltip="编辑实验执行页面中指定容器环境变量的值"
+      ></i>
+    </mat-slide-toggle>
+    <span class="reload highlight pointer" data-id="editButton" (click)="editHideSpecificContainerArguments()">编辑</span>
+  </div>
+
+</div>

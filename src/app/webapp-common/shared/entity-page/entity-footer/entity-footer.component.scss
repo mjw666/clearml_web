@@ -1,0 +1,73 @@
+@import "variables";
+
+:host {
+  position: fixed;
+  left: 0;
+  height: 48px;
+  width: 100%;
+  display: block;
+  background-color: #3a425c;
+
+  .selected-number {
+    padding-left: 12px;
+  }
+
+  .show-all {
+    text-decoration: underline;
+  }
+
+  .divider {
+    height: 20px;
+    opacity: 0.3;
+    border-right: solid 1px $blue-100;
+  }
+
+  button {
+    background-color: transparent;
+    border: none;
+    color: white;
+    padding: 0;
+  }
+
+  .compare-button-container {
+    display: flex;
+    align-items: center;
+    cursor: pointer;
+    margin: 0 12px;
+
+    &.compare {
+      i {
+        margin-right: 6px;
+      }
+    }
+  }
+
+  .has-example-item {
+    margin: 0 24px 0 auto;
+    i {
+      color: $neon-yellow;
+    }
+    .title {
+      margin-left: 6px;
+    }
+    @media screen and (max-width: 1200px) {
+      .title {
+        display: none;
+      }
+    }
+  }
+
+  .tags-container {
+    button {
+      height: 20px;
+      padding: 0 12px;
+
+    }
+  }
+  button.disabled, button[disabled] {
+    cursor: no-drop;
+    pointer-events: none;
+    opacity: 0.3 !important;
+  }
+}
+

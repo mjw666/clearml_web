@@ -1,0 +1,155 @@
+@import "variables";
+
+:host {
+  display: block;
+  z-index: 1000;
+  width: 100%;
+  font-size: 14px;
+
+  .vertical-layout {
+    font-size: 14px;
+
+    &.x-axis-options {
+      flex-direction: column;
+      flex-wrap: wrap;
+      width: 100%;
+      gap: 12px
+    }
+
+    .group-by-field,
+    .axis-type-field {
+      width: unset;
+      max-width: 200px;
+    }
+
+    .label-text {
+      display: flex;
+      align-items: center;
+      white-space: nowrap;
+      padding-right: 12px;
+      padding-bottom: 4px;
+    }
+
+    .axis-text-margin-left {
+      margin-left: 0;
+    }
+
+    .close-settings {
+      display: none;
+    }
+
+    .smooth-options {
+      width: 100%;
+      flex-wrap: wrap;
+      gap: 12px;
+      border-top: 1px solid #efefef;
+      padding-top: 12px;
+
+      mat-slider {
+        min-width: 100px;
+      }
+
+      .field {
+        flex-grow: 1;
+      }
+
+      .smooth-type {
+        max-width: 200px;
+        margin-left: auto;
+        width: 100%;
+      }
+    }
+
+    .smooth-input {
+      margin-left: 0;
+    }
+  }
+}
+
+.x-axis-options {
+  display: flex;
+  flex-grow: 1;
+  justify-content: space-between;
+  align-items: center;
+  gap: 12px;
+}
+
+.smooth-input {
+  height: 36px;
+  width: 74px;
+  margin-left: 16px;
+}
+
+.smooth-options {
+  display: flex;
+  align-items: center;
+  margin-left: auto;
+}
+
+.label-text {
+  padding-right: 6px;
+  flex-grow: 1;
+
+  &.axis-text-margin-left {
+    margin-left: 24px;
+  }
+}
+
+.smoothing-text {
+  padding-right: 16px;
+}
+
+.smooth-options i {
+  margin: auto 6px auto 25px;
+}
+
+mat-form-field {
+  width: 150px;
+  border-radius: 4px;
+  background-color: white;
+}
+
+.axis-type-field {
+  height: 36px;
+  width: 130px;
+}
+
+.smooth-type {
+  margin-left: 6px;
+  width: 200px;
+}
+
+.axis-type-field {
+  width: 172px;
+}
+
+.group-by-field {
+  width: 180px;
+}
+
+mat-slider {
+  min-width: 121px;
+}
+
+.field {
+  align-items: center;
+}
+
+.short-mode {
+  .field {
+    align-items: unset;
+    flex-direction: column;
+
+    .label-text {
+      margin-left: 0;
+      font-size: 12px;
+    }
+  }
+
+  .smooth-input,
+  .smooth-type {
+    margin-top: 18px;
+  }
+}
+
+

@@ -1,0 +1,17 @@
+<mat-drawer-container class="settings-container">
+  <mat-drawer mode="side" opened>
+    <mat-list class="pointer" style="padding-top: 24px;">
+      <mat-list-item routerLinkActive="active" routerLink="profile"> 用户资料 </mat-list-item>
+      <mat-list-item routerLinkActive="active" routerLink="webapp-configuration"> 系统设置 </mat-list-item>
+      <mat-list-item routerLinkActive="active" routerLink="workspace-configuration"> 工作空间 </mat-list-item>
+    </mat-list>
+  </mat-drawer>
+  <mat-drawer-content>
+    <div class="section">
+      <div class="content">
+        <router-outlet></router-outlet>
+      </div>
+    </div>
+    <sm-admin-footer></sm-admin-footer>
+  </mat-drawer-content>
+</mat-drawer-container>

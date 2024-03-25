@@ -1,0 +1,29 @@
+{
+  "onboarding": [
+    {
+      "title": "自定义视图",
+      "image": "assets/welcome-researcher.svg",
+      "content": "你的自定义视图(例如，列选择，列顺序，排序) 也在浏览器的URL栏中指定.<br/><br/>收藏页面，轻松保存您最喜欢的视图，或发送您的团队成员的URL链接，使他们可以共享与您相同的视图的.",
+      "context": ""
+    },
+    {
+      "title": "创建一个新实验",
+      "image": "assets/welcome-cat.svg",
+      "content": "用鼠标右键复制任何任务或使用任务上下文菜单创建草稿副本.<br/><br/>通过运行副本来运行，或修改草稿的任何元素以尝试新实验.",
+      "context": "",
+      "feature": "experiments"
+    },
+    {
+      "title": "比较实验",
+      "image": "assets/welcome-researcher.svg",
+      "content": "选择您想要比较的实验，然后使用底部栏进行比较.",
+      "context": ""
+    },
+    {
+      "title": "全屏查看",
+      "image": "assets/welcome-cat.svg",
+      "content": "通过使用全屏视图来关注单个实验细节.<br/><br/>由于使用额外的屏幕空间，可以更好地控制查看实验结果.<br/><br/>您可以在全屏和实验表视图之间切换.",
+      "context": ""
+    }
+  ]
+}

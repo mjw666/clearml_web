@@ -1,0 +1,41 @@
+@import "variables";
+@import "mixins/system-tag";
+
+:host {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: nowrap;
+  overflow: hidden;
+
+  &:hover {
+    .add-button {
+      opacity: 1;
+    }
+  }
+  .tag-item {
+    @include shrinkable-tags();
+  }
+
+  .add-button {
+    opacity: 0;
+    min-width: 85px;
+    max-width: 85px;
+    transition: opacity 0.3s;
+
+    &.no-tags {
+
+      opacity: 1;
+    }
+  }
+
+  .sys-tag {
+    @include system-tag();
+    background-image: url("../../../../assets/icons/sys_tag.svg");
+  }
+}
+
+:host-context(.menu-open) {
+  .add-button {
+    opacity: 100%;
+  }
+}

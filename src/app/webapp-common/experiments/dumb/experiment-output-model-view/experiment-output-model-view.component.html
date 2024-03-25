@@ -1,0 +1,18 @@
+<div class="input-model-container">
+  <sm-labeled-row *ngIf="!editable" label="模型名称">
+    <a [href]="'/projects/'+ ((model?.project?.id) ? model?.project?.id : '*')  + '/models/' + model?.id" target="_blank">
+      {{model?.name}}
+    </a>
+    <i *ngIf="model?.uri && !isLocalFile"
+       class="pointer al-icon al-ico-download sm-md ms-2"
+       (click)="artifactFilePathClicked(model.uri)"
+    ></i>
+    <sm-copy-clipboard
+      *ngIf="model?.uri && isLocalFile"
+      label=""
+      class="ps-2 light"
+      [clipboardText]="model.uri"
+      [hideBackground]="true"
+    ></sm-copy-clipboard>
+  </sm-labeled-row>
+</div>

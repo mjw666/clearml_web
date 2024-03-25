@@ -1,0 +1,105 @@
+@import "mixins/common";
+@import "variables";
+
+$reqWidth: 56px;
+$font-size: 18px;
+.model-labels {
+  background-color: $orangada;
+}
+
+.dataview-versions {
+  background-color: #00e3b9;
+}
+
+.dataview-enumeration {
+  background-color: $orangada;
+}
+
+.counter-container {
+  text-align: center;
+  padding: 8px;
+
+  .circle-counter {
+    display: inline-block;
+    width: $reqWidth;
+    height: $reqWidth;
+    border-radius: 50%;
+    margin-bottom: 8px;
+    background-color: $blue-600;
+
+    .counter-tags {
+      background-color: $blue-900;
+      border-radius: 30px;
+      display: flex;
+      padding: 0 28px;
+      width: 140px;
+    }
+
+    .wrapper {
+      gap: 24px;
+    }
+
+    &.multi {
+      display: flex;
+      padding: 0 28px;
+      border-radius: 30px;
+      width: unset;
+
+      .sub-counter {
+        font-size: 16px;
+        font-weight: bold;
+        color: $white;
+
+        &.no-value {
+          color: $blue-400;
+        }
+      }
+
+      .sub-label {
+        font-size: 10px;
+        color: $blue-300;
+      }
+    }
+
+    &.completed {
+      background-color: $completed-blue;
+    }
+
+    &.published {
+      background-color: $neon-yellow;
+
+      .counter {
+        color: $blue-600;
+      }
+    }
+
+    &.pending {
+      background-color: $pending-gray;
+    }
+
+    &.empty {
+      background-color: $empty-grey;
+    }
+
+    &.running {
+      background-color: $running-green;
+    }
+
+    &.failed {
+      background-color: $failed-red;
+    }
+
+    .counter {
+      @include vertical-align();
+      @include counter-title();
+    }
+  }
+
+  .counter-label {
+    @include counter-label();
+  }
+}
+
+.leave-space {
+  min-height: 17px;
+}

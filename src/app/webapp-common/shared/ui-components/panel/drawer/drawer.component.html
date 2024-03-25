@@ -1,0 +1,21 @@
+<div
+  #drawerContainer
+  class='drawer-container'
+  [class.drawer-closed]="closed">
+  <div class="c-drawer-toggle" [class.display-on-hover]="displayOnHover && !closed">
+    <button
+      class="pointer drawer-toggle"
+      data-id="drawerExpandButton"
+      [class.display-on-hover]="displayOnHover && !closed"
+      (click)="toggleDrawer()"
+    >
+      <i *ngIf="!closed" class="arrows-icon fas fa-angle-double-left" data-id="drawerCollapseButton"></i>
+      <div #closedLabel [class.hidden]="!closed" class="label">{{label}}</div>
+    </button>
+  </div>
+  <div class='content-container'>
+    <div #fixedWidth class="fixed-width">
+      <ng-content></ng-content>
+    </div>
+  </div>
+</div>

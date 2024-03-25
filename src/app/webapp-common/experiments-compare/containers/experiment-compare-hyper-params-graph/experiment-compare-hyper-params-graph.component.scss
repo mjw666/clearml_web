@@ -1,0 +1,197 @@
+@import "variables";
+
+:host {
+  display: flex;
+  height: 50%;
+  flex-grow: 1;
+
+  ::ng-deep .mat-expansion-panel-header.mat-expansion-toggle-indicator-before {
+    .mat-expansion-indicator {
+      margin: 0 12px 0 2px;
+      height: 20px;
+      line-height: 1;
+    }
+  }
+
+  ::ng-deep .list-container {
+    display: flex;
+    flex-direction: column;
+    width: 360px;
+    height: 100%;
+    border-right: 1px solid #efefef;
+
+    input {
+      padding-left: 0;
+    }
+  }
+
+  ::ng-deep .mat-expansion-panel-body {
+    padding: 0 12px 0 24px;
+  }
+  ::ng-deep sm-search {
+    margin-top: 12px;
+    padding-right: 24px;
+  }
+
+  sm-compare-scatter-plot {
+    display: block;
+    height: 100%;
+    width: 100%;
+    padding: 24px;
+  }
+}
+
+.toggle-all {
+  font-size: 10px;
+  padding-right: 2px;
+  cursor: pointer;
+}
+
+.graphs-container {
+  flex: 1;
+  overflow: auto;
+  padding: 0 !important;
+}
+
+
+.metrics-container {
+  padding: 20px 0 0 24px;
+  // dashboard-search icon
+  i.fa {
+    position: absolute;
+    right: 0;
+    top: 10px;
+    color: $blue-480;
+  }
+
+  .value-types {
+    display: block;
+    margin-top: 16px;
+    font-size: 11px;
+
+    mat-radio-button {
+      margin-right: 22px;
+    }
+  }
+}
+
+.metric-title {
+  font-size: 16px;
+  font-weight: 500;
+  color: $blue-400;
+}
+
+.metrics-search {
+  position: relative;
+  margin: 12px 24px 6px 0;
+
+  input {
+    width: 100%;
+    font-size: 14px;
+    border: none;
+    border-bottom: 2px solid $blue-200;
+    border-radius: 0;
+    padding-right: 32px;
+
+    &:focus {
+      border-bottom-color: $blue-480;
+    }
+  }
+}
+
+.separate-margins {
+  margin: 24px 0 20px 0;
+}
+
+.metric-list {
+  overflow: scroll;
+  overflow-x: hidden;
+  max-height: 0;
+  padding-right: 14px;
+  transition: max-height 0.2s;
+
+  &__panel {
+    box-shadow: none;
+    border-radius: 0;
+
+    & .mat-expanded .metric-list__title {
+      color: $purple;
+    }
+  }
+
+  &__header {
+    padding: 0 2px 0 0;
+
+  }
+
+  &__title {
+    color: $blue-400;
+    font-size: 14px;
+    text-overflow: ellipsis;
+    overflow: hidden;
+    white-space: nowrap;
+    display: inline-block;
+
+    &:hover {
+      color: $purple;
+    }
+  }
+
+  &__item {
+    display: flex;
+    align-items: center;
+    font-family: $font-family-base, sans-serif;
+    font-size: 12px;
+    height: 32px;
+    color: $blue-400;
+    padding: 0 16px;
+    border-radius: 4px;
+    cursor: pointer;
+
+    &.selected {
+      background: $blue-50;
+    }
+
+    &:hover {
+      background: $blue-50;
+    }
+
+  }
+
+  // Modify
+  &.mat-expanded {
+    .metric-list__title {
+      color: $purple;
+    }
+  }
+
+  &--show {
+    transition: max-height 0.35s ease-in-out;
+    max-height: 300px;
+  }
+}
+
+.graph-container {
+  height: 100%;
+  overflow: hidden;
+}
+
+.no-data {
+  color: $blue-480;
+  font-weight: 400;
+
+  .no-data-title {
+    color: $blue-100;
+  }
+}
+
+.al-ico-no-data-graph {
+  font-size: 140px;
+  width: 140px;
+  height: auto;
+  color: rgba(0,0,0,0.1);
+}
+
+sm-grouped-checked-filter-list {
+  margin: 0 0 0 24px;
+}

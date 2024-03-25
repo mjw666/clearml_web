@@ -1,0 +1,62 @@
+<div class="sm-card-list-layout projects"
+     [class.in-empty-state]="!(((projectsList$ | async)?.length !== 0 && (!allExamples || (showExamples$ | async))) || searching)">
+  <sm-projects-header
+    (orderByChanged)="orderByChanged($event)"
+    [sortByField]="projectsOrderBy$ | async"
+    [sortOrder]="projectsSortOrder$ | async"
+    [enableTagsFilter]="true"
+    [tags]="projectsTags$ | async"
+  >
+    <sm-button-toggle
+      left-items
+      class="ms-3"
+      [value]="!!projectId"
+      [options]="[
+              {value: false, icon: 'al-ico-flat-view',  label: '列表视图'},
+              {value: true, icon:'al-ico-project-path', label: '项目视图'}
+            ]"
+      (valueChanged)="!(!!projectId && $event) && toggleNestedView($event)"
+    ></sm-button-toggle>
+    <div class="d-flex">
+      <button
+        class="btn btn-cml-primary d-flex align-items-center"
+        (click)="createPipeline()">
+        <i class="al-icon al-ico-add sm me-2" data-id="New Pipeline"></i>新建工作流
+      </button>
+    </div>
+  </sm-projects-header>
+  <ng-container
+    *ngIf="((projectsList$ | async)?.length !== 0 && (!allExamples || (showExamples$ | async))) || searching; else emptyState">
+    <sm-pipeline-card
+      *ngFor="let project of projectsList$ | async; trackBy: trackById ;let last=last"
+      [hideMenu]="['All Experiments'].includes(project.name) || project['isRoot'] || isExample(project)"
+      [hideProjectPathIcon]="!!projectId"
+      [project]="project"
+      [allTags]="projectsTags$ | async"
+      (projectCardClicked)="projectCardClicked($event)"
+      (projectNameChanged)="projectNameChanged({id: project.id, name: $event})"
+      (addTag)="addTag(project, $event)"
+      (removeTag)="removeTag(project, $event)"
+      (delete)="deleteProject(project)"
+    ></sm-pipeline-card>
+  </ng-container>
+
+  <div class="load-more" *ngIf="(noMoreProjects$ | async) === false && (projectsList$ | async)?.length > 0">
+    <button (click)="loadMore()" class="btn btn-cml-primary load-more-btn" data-id="Load More Button">加载更多</button>
+  </div>
+</div>
+<ng-template #emptyState>
+  <div class="empty-state">
+    <div class="title-icon"><i class="al-icon al-ico-pipelines xxl"></i></div>
+    <div class="title">暂无数据</div>
+    <div class="sub-title">运行第一个工作流，让他显示在这里
+      <ng-container *ngIf="allExamples"> or <a href=""
+                                               (click)="$event.preventDefault(); createExamples()"
+                                               class="link">生成案例
+      </a></ng-container>
+    </div>
+
+    <sm-pipelines-empty-state [initPipelineCode]="initPipelineCode" [createButton]="true"></sm-pipelines-empty-state>
+  </div>
+</ng-template>
+

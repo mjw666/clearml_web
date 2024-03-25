@@ -1,0 +1,73 @@
+@import '../../styles/variables';
+
+$generic-font-size: 11px;
+:host {
+  .dialog-template-container {
+    height: 100%;
+    min-height: 150px;
+    overflow-y: auto;
+    background-color: transparent;
+  }
+
+  .create-title {
+    margin: 10px 10px 18px;
+    font-size: 24px;
+    font-weight: 300;
+    width: 100%;
+    height: 35px;
+    text-align: center;
+    color: $blue-800;
+    text-transform: uppercase;
+  }
+
+  .sub-header {
+    font-size: 14px;
+    text-align: center;
+    color: $blue-400;
+  }
+
+  .icon {
+    margin: 10px;
+  }
+
+  .app-icon-image {
+    width: 64px;
+    height: 64px;
+    background-size: contain;
+    background-repeat: no-repeat;
+    background-position: center;
+  }
+
+
+  .generic-container {
+    overflow: hidden;
+    background-color: $white;
+    z-index: $zindex-modal;
+    border-radius: 4px;
+    padding: 32px 64px;
+    overflow-y: auto;
+    min-width: 430px;
+    height: 100%;
+    max-height: 94vh;
+  }
+
+  .include-banner {
+    height: calc(100vh - 220px);
+    .generic-container {
+      border-radius: 4px 4px 0 0px;
+    }
+  }
+  ::ng-deep .background-transparent {
+    .mat-mdc-dialog-container {
+      max-height: none !important;
+      height: 97vh !important;
+      background-color: transparent;
+      box-shadow: none !important;
+      overflow: hidden;
+    }
+  }
+
+  .rotate-right {
+    transform: rotate(135deg);
+  }
+}

@@ -1,0 +1,24 @@
+<sm-dialog-template *ngIf="data; else content" iconClass="al-icon al-ico-pipelines" header="创建新的工作流">
+<ng-container *ngTemplateOutlet="content"></ng-container>
+</sm-dialog-template>
+
+
+
+
+<ng-template #content>
+  <div class="content">
+    <div class="code">
+      <div class="d-flex justify-content-between">
+        <div>
+          运行以下代码作为一个快速示例(需要ClearML 1.3或更高版本)<br>
+          有关详细信息，请参阅 <a [class.dark]="createButton" href="https://clear.ml/docs/latest/docs/pipelines/"
+                                      target="_blank">文档</a>
+        </div>
+      </div>
+      <sm-code-editor *ngIf="initPipelineCode" [code]="initPipelineCode" [readonly]="true" [showCopyButton]="true"></sm-code-editor>
+    </div>
+    <div class="diagram">
+      <i class="i-pipeline-empty-state"></i>
+    </div>
+  </div>
+</ng-template>

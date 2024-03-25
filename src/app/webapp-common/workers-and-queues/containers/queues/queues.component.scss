@@ -1,0 +1,26 @@
+@import "../../../../webapp-common/layout/layout.scss";
+
+:host {
+  display: flex !important;
+  flex-direction: column;
+  gap: 24px;
+  height: 100%;
+
+  .queues-header {
+    padding: 0 24px;
+
+    button {
+      margin-left: auto;
+    }
+  }
+
+  sm-queue-stats {
+    margin: 0 24px;
+  }
+}
+
+@media (max-height: 750px) {
+  :host {
+    height: unset;
+  }
+}

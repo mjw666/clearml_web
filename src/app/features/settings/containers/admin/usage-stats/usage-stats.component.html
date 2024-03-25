@@ -1,0 +1,5 @@
+<ng-container *ngIf="!demo">
+  <mat-slide-toggle
+    (change)="statsChange($event)"
+    [checked]="allowed$ | async">匿名发送使用数据(全局设置)</mat-slide-toggle>
+</ng-container>

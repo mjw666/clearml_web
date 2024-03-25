@@ -1,0 +1,98 @@
+<form #projectForm='ngForm' class="d-flex flex-column">
+  <mat-form-field appearance="outline" hideRequiredMarker class="mat-light">
+    <mat-label>项目名称</mat-label>
+    <mat-error *ngIf="name.touched && name.errors?.required">*请输入项目名称.</mat-error>
+    <mat-error *ngIf="name.touched && name.errors?.uniqueProject">*此路径中的项目名称已存在.</mat-error>
+    <mat-error *ngIf="name.touched && name.errors?.minlength">*项目名称应包含3个以上字符.</mat-error>
+    <mat-error *ngIf="name.touched && name.errors?.emptyName && !name.errors?.minlength">*项目名称不能只包含空格.</mat-error>
+    <mat-error *ngIf="name.touched && name.errors?.pattern &&  !name.errors?.minlength">*项目名称不能包含斜杠 (/)</mat-error>
+    <input name="projectName"
+           [(ngModel)]="project.name"
+           #name="ngModel"
+           matInput
+           autocomplete="off"
+           smUniqueProjectValidator
+           smUniqueNameValidator
+           [existingNames]="[]"
+           [parent]="targetFolder.value"
+           pattern="^[^\/]*$"
+           required minlength="3" >
+  </mat-form-field>
+
+  <mat-form-field appearance="outline" hideRequiredMarker
+                  (mousedown)="!isFocused(locationRef) && targetFolder.value && targetFolder.reset(); locationRef.blur(); locationRef.focus()">
+    <mat-error *ngIf="targetFolder.touched && targetFolder.errors?.required">*请添加位置.</mat-error>
+    <mat-error *ngIf="targetFolder?.errors?.minlength">请提供超过3个字符的名称</mat-error>
+
+    <mat-label>项目归属</mat-label>
+    <input type="text"
+           matInput
+           #targetFolder="ngModel"
+           #locationRef
+           name="location"
+           [(ngModel)]="project.parent"
+           [matAutocomplete]="auto"
+           placeholder="搜索项目路径"
+           required
+           minlength="3">
+    <span matSuffix *ngIf="projects && targetFolder.value && (!isAutoCompleteOpen) && !(project.parent | stringIncludedInArray:projectsNames)"
+          class="creat-new-suffix">(Create New)</span>
+    <i matSuffix class="al-icon sm-md search-icon me-2" [ngClass]="targetFolder.value? 'al-ico-dialog-x pointer':'al-ico-search'"
+       (click)="targetFolder.value && targetFolder.reset(); locationRef.focus()"
+       smClickStopPropagation></i>
+    <mat-autocomplete
+      (opened)="setIsAutoCompleteOpen(true)"
+      (closed)="setIsAutoCompleteOpen(false)"
+      (optionSelected)="locationSelected($event)"
+      #auto="matAutocomplete" autoActiveFirstOption
+      class="light-theme"
+      classList="light-theme"
+    >
+      <mat-option
+        class="item"
+        *ngIf="projectsNames !== null && targetFolder.value && !(targetFolder.value | stringIncludedInArray:projectsNames)"
+        [value]="targetFolder.value"
+      >"{{targetFolder.value}}" <span class="new">(Create New)</span></mat-option>
+      <mat-option
+        *ngFor="let projectName of projectsNames"
+        [value]="projectName" [smTooltip]="projectName"  smShowTooltipIfEllipsis
+      >
+        <div [smSearchText]="targetFolder.value">{{projectName}}</div>
+      </mat-option>
+      <div *ngIf="!projects" class="p-4 pe-none">
+        <mat-spinner class="m-auto" [diameter]="32" [strokeWidth]="4" color="accent"></mat-spinner>
+      </div>
+      <div *ngIf="projects && !noMoreOptions" (smScrollEnd)="!loading && loadMore(targetFolder.value)" class="text-center">Loading more...</div>
+      <mat-option disabled style="height: 0; min-height: 0;"></mat-option> <!-- Empty mat-option, so the autocomplete menu will always pop -->
+    </mat-autocomplete>
+  </mat-form-field>
+  <mat-form-field appearance="outline" hideRequiredMarker>
+    <mat-error *ngIf="description?.touched && description?.invalid">*请添加描述.
+    </mat-error>
+    <mat-label>项目描述</mat-label>
+    <textarea class="project-description"
+              name="description"
+              matInput
+              [(ngModel)]="project.description"
+              #description="ngModel"
+    ></textarea>
+  </mat-form-field>
+  <mat-form-field appearance="outline">
+    <mat-error *ngIf="default_output_destination?.touched && default_output_destination?.errors?.required">*请添加默认路径.
+    </mat-error>
+    <mat-error *ngIf="default_output_destination?.touched && default_output_destination?.errors?.pattern">*输出路径错误 (e.g. s3://bucket. gs://bucket)
+    </mat-error>
+    <mat-label>默认输出路径</mat-label>
+    <input class="project-output-dest"
+           matInput
+           name="default_output_destination"
+           [(ngModel)]="project.default_output_destination"
+           #default_output_destination="ngModel"
+           [pattern]="outputDestPattern"
+           placeholder="e.g. s3://bucket. gs://bucket">
+  </mat-form-field>
+  <div class="w-100 create-project-button">
+    <button class="btn btn-dark-fill center" data-id="Create Project" [disabled]="projectForm.invalid" (click)="send()">创建项目
+    </button>
+  </div>
+</form>

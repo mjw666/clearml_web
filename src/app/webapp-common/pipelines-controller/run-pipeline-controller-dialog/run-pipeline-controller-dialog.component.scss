@@ -1,0 +1,42 @@
+@import "variables";
+
+:host {
+  .section-title{
+    color: $blue-500;
+    font-size: 14px;
+    margin-top: 14px;
+  }
+
+  .buttons {
+    margin-top: 32px;
+    display: flex;
+    justify-content: center;
+
+    button {
+      &:first-of-type {
+        margin-right: 16px;
+      }
+    }
+  }
+  .param-line{
+    margin-top: 24px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    .param-key{
+      width: 180px;
+      font-size: 12px;
+    }
+
+    .mat-mdc-form-field{
+      width: 340px;
+      &.hidden{
+        display: none;
+      }
+    }
+  }
+
+  .error {
+    color: $error-color
+  }
+}

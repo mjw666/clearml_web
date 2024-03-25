@@ -1,0 +1,41 @@
+@import 'variables';
+
+:host {
+  ::ng-deep color-picker .color-picker {
+    z-index: $zindex-colorpicker;
+    border-radius: 4px;
+    box-shadow: 0 3px 6px 0 rgba(0, 0, 0, 0.16);
+    border-color: $blue-200;
+    .saturation-lightness {
+      border-radius: 3px 3px 0 0;
+    }
+    .preset-area {
+      hr {
+        margin-top: 0;
+      }
+      .preset-color {
+        margin: 4px;
+        border-color: white;
+        box-shadow: 0 0 0 1px $blue-200;
+        &:hover {
+          box-shadow: 0 0 0 1px $blue-400;
+        }
+      }
+    }
+    .button-area {
+      padding: 0 16px;
+    }
+    .arrow {
+      display: none;
+    }
+  }
+
+  .color-picker-wrapper {
+    position: absolute;
+  }
+  ::ng-deep .cp-preset-colors-class .preset-color:last-child {
+    background-image: url("data:image/svg+xml;charset=utf8,%3Csvg xmlns='http://www.w3.org/2000/svg' width='16' height='16' viewBox='0 0 16 16'%3E%3Cpath d='M12,16V12H8V8h4v4h4v4ZM4,16V12H8v4ZM0,12V8H4v4ZM12,8V4H8V0h4V4h4V8ZM4,8V4H0V0H4V4H8V8Z' fill='%23ccc'/%3E%3C/svg%3E");
+  }
+}
+
+

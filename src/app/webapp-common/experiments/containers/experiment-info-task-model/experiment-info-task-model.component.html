@@ -1,0 +1,42 @@
+<ng-template
+  let-saving="saving" let-editable="editable"
+  let-configurationObjectName="configurationObjectName"
+  [ngTemplateOutletContext]="{ saving: saving$ | async,
+                               editable: editable$ | async,
+                               configurationObjectName: selectedConfigObj$ | async}"
+  [ngTemplateOutlet]="template" #template>
+  <sm-editable-section [editable]="false">
+    <sm-section-header [label]="configurationObjectName | replaceViaMapPipe:sectionReplaceMap | uppercase"></sm-section-header>
+    <sm-labeled-row label="类型">{{formData?.type === 'legacy' ? '' : formData?.type}}</sm-labeled-row>
+    <sm-labeled-row label="描述">{{formData?.description}}</sm-labeled-row>
+  </sm-editable-section>
+
+  <!-- **************** CONFIGURATION OBJECT **************** -->
+  <sm-editable-section class="editable-design"
+                       #prototext
+                       [saving]="saving"
+                       [editable]="editable"
+                       [disableInEditMode]="true"
+                       [disableEditable]="!(editable && !formData?.value)"
+                       (cancelClicked)="cancelModelChange()"
+                       (activateEditClicked)="activateEditChanged('prototext'); editPrototext()">
+    <sm-section-header label="配置对象"></sm-section-header>
+    <sm-scroll-textarea
+      class="flex-grow-1"
+      [editable]="editable && prototext.inEditMode"
+      [formData]="formData === null ? null : formData?.value"
+      [showSpinner]="formData === null"
+    >
+      <button extra-buttons
+              *ngIf="formData?.value && editable"
+              class="btn btn-dark-fill terminal flex-1"
+              (click)="prototext.editModeChanged(true)">编辑</button>
+      <button extra-buttons
+              *ngIf="formData?.value && editable"
+              class="btn btn-dark-fill terminal flex-1"
+              (click)="clearPrototext()">
+        清除
+      </button>
+    </sm-scroll-textarea>
+  </sm-editable-section>
+</ng-template>

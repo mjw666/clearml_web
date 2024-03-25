@@ -1,0 +1,24 @@
+@import "../../../shared/ui-components/styles/mixins/common";
+@import "variables";
+
+.view-all {
+  font-size: 12px;
+  font-weight: 500;
+}
+
+.sm-card-list-layout {
+  height: 320px;
+  overflow: hidden;
+  grid-gap: 16px 24px;
+  padding-top: 24px;
+  padding-bottom: 0;
+}
+
+.sm-card-list-header {
+  grid-column: 1 / -1;
+  padding: 0;
+  height: unset;
+}
+.recent-title {
+  @include recent-title();
+}

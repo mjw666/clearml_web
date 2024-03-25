@@ -1,0 +1,88 @@
+<div class="header-container" [class.login]="isLogin">
+  <div class="d-flex">
+    <sm-breadcrumbs
+      class="spacer"
+      [class.flex-grow-1]="!(userFocus)"
+      [class.user-focus]="userFocus "
+      [class.share-view]="isShareMode"
+      [activeWorkspace]="activeWorkspace">
+    </sm-breadcrumbs>
+    <sm-show-only-user-work *ngIf="userFocus" class="ms-3"></sm-show-only-user-work>
+  </div>
+
+  <div *ngIf="showLogo && !isLogin" class="logo-full middle"
+       [class.make-room-for-slogan]="(environment$ | async).whiteLabelSlogan">
+    <!-- <img *ngIf="!(environment$ | async).whiteLabelLogo; else: whiteLabel" alt="logo"
+         [priority]="true"
+         [ngSrc]="(environment$ | async).branding.logo"
+         width="130" height="42"> -->
+         <div style="width: 130; height: 42;"></div>
+    <!-- <ng-template #whiteLabel>
+      <div class="slogan">{{(environment$ | async).whiteLabelSlogan}}</div>
+      <div *ngIf="isLogin" class="logo-full">
+        <img alt="logo" [priority]="true" ngSrc="assets/logo-white.svg" width="130" height="42">
+      </div>
+    </ng-template> -->
+  </div>
+  <sm-header-navbar-tabs
+    *ngIf="!showLogo && !isLogin"
+  ></sm-header-navbar-tabs>
+
+  <div *ngIf="isLogin" class="spacer"></div>
+
+  <div class="right-buttons" data-id="rightSideHeaderpanel" *ngIf="!hideMenus">
+    <sm-common-search #search [class.share-view]="isShareMode"></sm-common-search>
+
+    <span class="d-flex pointer resources-trigger" [matMenuTriggerFor]="resourcesMenu">
+      <i class="al-icon al-ico-help-outlined" data-id="help Icon"></i>
+    </span>
+    <span class="pointer menu-trigger position-relative" data-id="Avatar" [matMenuTriggerFor]="profileMenu">
+      <img alt="avatar" class="avatar"  *ngIf="(user | async).avatar; else iconAvatar" [src]="(user | async).avatar">
+      <ng-template #iconAvatar>
+        <div class="user-icon">
+          <i class="al-icon al-ico-account sm-md"></i>
+        </div>
+      </ng-template>
+      <div *ngIf="(userNotificationPath$ | async) || (invitesPending$ | async)?.length" class="user-notification"></div>
+    </span>
+
+    <mat-menu #profileMenu="matMenu" class="user-menu">
+      <button mat-menu-item [routerLink]="'settings/' + (userNotificationPath$ | async)" data-id="Settings Button">
+        <i class="al-icon icon sm-md" [class]="(userNotificationPath$ | async) ? 'al-ico-settings-alert' : 'al-ico-settings'">
+          <span class="path1"></span><span class="path2"></span>
+        </i>设置
+      </button>
+      <sm-header-user-menu-actions></sm-header-user-menu-actions>
+      <button mat-menu-item (click)="logout()" data-id="Logout">
+        <i class="al-ico-logout al-icon icon sm-md"></i>登出
+      </button>
+    </mat-menu>
+
+    <mat-menu #resourcesMenu="matMenu" class="user-menu light-theme" panelClass="light-theme">
+      <button mat-menu-item (click)="openWelcome($event)" data-id="Python Package setup Option">
+        <i class="al-icon sm-md al-ico-code-file"></i>ClearML Python包安装
+      </button>
+      <!-- <a mat-menu-item href="https://www.youtube.com/c/ClearML/featured" target="_blank" data-id="Youtube Option">
+        <i class="al-icon al-ico-youtube sm-md"></i>ClearML on Youtube
+      </a> -->
+      <a mat-menu-item [href]="(environment$ | async).docsLink" target="_blank" data-id="Online Documentation Option">
+        <i class="al-icon sm-md al-ico-documentation"></i>在线文档
+      </a>
+      <button mat-menu-item (click)="openTip()" data-id="Pro Tips Option">
+        <i class="al-icon sm-md al-ico-tips"></i>专业建议
+      </button>
+      <ng-container *smCheckPermission="'applications'">
+        <button mat-menu-item
+                *ngIf="(environment$ | async)?.appsYouTubeIntroVideoId && $any((environment$ | async)).appAwarenessMenu !== false"
+                (click)="openAppsAwareness($event)" data-id="Apps Introduction Option"
+        >
+          <i class="al-icon sm-md al-ico-applications"></i>ClearML应用介绍
+        </button>
+      </ng-container>
+      <!-- <a mat-menu-item href="mailto:support@clear.ml" data-id="Contact Us">
+        <i class="al-icon sm-md al-ico-email"></i>Contact Us
+      </a> -->
+    </mat-menu>
+  </div>
+</div>
+<ng-content></ng-content>

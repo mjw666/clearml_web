@@ -1,0 +1,100 @@
+@import "variables";
+
+
+:host {
+  display: block;
+  position: relative;
+  height: 100%;
+  width: 100%;
+
+  sm-table {
+    display: block;
+    height: 100%;
+  }
+
+  .table-container {
+    height: 100%;
+  }
+
+  .experiment-name {
+    font-weight: 500;
+    text-overflow: ellipsis;
+    overflow: hidden;
+    white-space: nowrap;
+  }
+
+  .parent-name {
+    text-overflow: ellipsis;
+    overflow: hidden;
+    white-space: nowrap;
+  }
+
+  .italic {
+    font-style: italic;
+    padding-right: 2px;
+  }
+
+  .checkbox-align-top {
+    margin-top: -10px;
+  }
+
+  .checkbox-col {
+    display: block;
+    position: relative;
+    z-index: 1;
+    float: left;
+    padding: 13px 0 13px 26px;
+    margin-left: -12px;
+
+    &:not(.header) {
+      padding-right: 24px;
+    }
+
+    &.header.minimised {
+      padding-left: 33px;
+    }
+  }
+
+  .drop-down {
+    padding-left: 4px;
+    pointer-events: initial;
+    cursor: pointer;
+  }
+
+  .compact-columns-data {
+    gap: 12px;
+    color: $blue-250;
+    font-size: 12px;
+  }
+}
+
+sm-table-card-filter-template {
+  margin-left: 1em;
+}
+
+.btn-outline-light {
+  font-weight: 500;
+
+  &:hover {
+    color: $purple;
+  }
+}
+
+.menu-title {
+  background-color: white;
+  color: $blue-400;
+  font-size: 15px;
+  font-weight: 500;
+  padding: 6px 12px 0;
+  height: 32px;
+  line-height: 32px;
+}
+
+.dot {
+  color: $blue-500;
+  padding: 0 6px;
+}
+
+sm-experiment-status-icon-label {
+  min-width: 90px;
+}

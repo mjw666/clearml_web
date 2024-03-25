@@ -1,0 +1,55 @@
+@import "variables";
+@import "../../../layout/layout.scss";
+
+$output-tabs-height: 64px;
+
+:host {
+  display: block;
+  height: 100%;
+
+  .experiment-output-container {
+    height: 100%;
+    &.minimized{
+      height: calc(100% - 32px);
+    }
+  }
+
+  ::ng-deep .no-output {
+    text-align: center;
+    color: $cloudy-blue-two;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translateY(-50%) translateX(-50%);
+    display: block;
+  }
+
+  ::ng-deep .no-output-icon {
+    height: 100px;
+    width: 150px;
+  }
+
+  sm-experiment-settings.maximized {
+    display: block;
+    padding-top: 6px;
+  }
+
+  .refresh-position {
+    display: flex;
+    align-items: center;
+    margin-right: 30px;
+    margin-left: auto;
+  }
+
+  .refreshIcon {
+    margin-right: 10px;
+  }
+
+  .output-body {
+    position: relative;
+    height: calc(100% - #{$output-tabs-height + $experiment-info-header-height + 32px});
+    &.minimized {
+      height: calc(100% - #{$experiment-info-header-height + $experiment-info-tabs-height + 3px});
+    }
+  }
+}

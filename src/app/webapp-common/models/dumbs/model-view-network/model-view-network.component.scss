@@ -1,0 +1,15 @@
+@import "../../../layout/layout.scss";
+
+:host {
+  .dark {
+    background-color: $blue-600;
+    color: #ffffff;
+  }
+
+  .copy-textarea {
+    position: absolute;
+    right: 12px;
+    top: 7px;
+    z-index: 1;
+  }
+}

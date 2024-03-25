@@ -1,0 +1,34 @@
+@import "variables";
+
+:host {
+  display: inline-flex;
+  .tooltip-wrapper {
+    display: inherit;
+  }
+
+  .al-icon {
+    margin-left: 8px;
+  }
+}
+
+.tooltip-container {
+  margin: -4px 0;
+  max-width: 300px;
+  background: $purple;
+  padding: 8px 12px;
+  border-radius: 4px;
+  font-size: 11px;
+  line-height: normal;
+  color: $blue-25;
+
+  ::ng-deep a {
+    color: $blue-25;
+    text-decoration: underline;
+
+    &:hover {
+      text-decoration: underline;
+      color: $white;
+      font-weight: 500;
+    }
+  }
+}

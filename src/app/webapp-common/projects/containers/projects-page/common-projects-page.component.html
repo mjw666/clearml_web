@@ -1,0 +1,22 @@
+<sm-projects-list
+  [noMoreProjects]="noMoreProjects$ | async"
+  [projects]="projectsList$ | async"
+  [showLast]="searching"
+  (deleteProjectClicked)="deleteProject($event)"
+  (loadMore)="loadMore()"
+  (projectCardClicked)="projectCardClicked($event)"
+  (projectNameChanged)="projectNameChanged($event)"
+  (createNewProjectClicked)="openProjectDialog('create', $event)"
+  (moveToClicked)="openProjectDialog('move', $event)"
+>
+  <sm-projects-header
+    (orderByChanged)="orderByChanged($event)"
+    [sortByField]="projectsOrderBy$ | async"
+    [sortOrder]="projectsSortOrder$ | async"
+  >
+    <button class="btn btn-cml-primary d-flex align-items-center" data-id="New Project"
+            (click)="openProjectDialog('create')">
+      <i class="al-icon al-ico-add sm me-2"></i>新建项目
+    </button>
+  </sm-projects-header>
+</sm-projects-list>

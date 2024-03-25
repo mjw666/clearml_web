@@ -1,0 +1,9 @@
+<div class="description-tooltip">
+  <ng-container *ngIf="selectedExperiment?.comment; else noDescription">
+    <p>{{selectedExperiment?.comment}}</p>
+    <div class="copy-button pointer" (click)="editDescription.emit()" data-id="editDescriptionButton">编辑描述</div>
+  </ng-container>
+  <ng-template #noDescription>
+    <div (click)="editDescription.emit()" class="pointer add-description">新增描述</div>
+  </ng-template>
+</div>

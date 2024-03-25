@@ -1,0 +1,26 @@
+@import "variables";
+
+:host {
+  .description-tooltip {
+    margin: -4px 0;
+    max-width: 300px;
+    background: $purple;
+    padding: 8px;
+    border-radius: 4px;
+    box-shadow: 0 3px 6px 0 rgba(0, 0, 0, 0.16);
+    font-size: 11px;
+    overflow: hidden;
+    div, p {
+      color: $white;
+    }
+    div.copy-button {
+      color: $light-periwinkle-two;
+    }
+    .add-description, .copy-button {
+      &:hover {
+        color: $white;
+        text-decoration: underline;
+      }
+    }
+  }
+}

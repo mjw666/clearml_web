@@ -1,0 +1,48 @@
+@import "variables";
+
+:host {
+  .settings-container {
+    height: 100%;
+
+    mat-drawer {
+      border-right: 1px solid $blue-500;
+      width: 220px;
+    }
+    .mat-mdc-list-item {
+      padding-left: 24px;
+      --mdc-list-list-item-label-text-color: #{$blue-200};
+      --mdc-theme-text-primary-on-background: #{$blue-200};
+      &:hover {
+        background-color: $blue-650;
+      }
+      &.active {
+        --mdc-list-list-item-label-text-color: #{$blue-50};
+        --mdc-list-list-item-container-color: #{$blue-500};
+        &:hover {
+         background-color: $blue-500;
+        }
+      }
+      &::before,
+      &:hover::before {
+        background-color: unset;
+        opacity: unset;
+      }
+    }
+
+    mat-drawer-content {
+      display: flex;
+      flex-direction: column;
+      height: 100%;
+
+      .section {
+        padding: 20px 24px;
+        height: calc(100% - 64px);
+        overflow: auto;
+        .content {
+          height: 100%;
+          width: 100%;
+        }
+      }
+    }
+  }
+}

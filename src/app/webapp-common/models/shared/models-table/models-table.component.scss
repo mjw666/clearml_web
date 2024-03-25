@@ -1,0 +1,76 @@
+@import "variables";
+@import "../../../layout/layout.scss";
+
+::ng-deep sm-models footer.d-flex.justify-content-center {
+  align-items: center;
+  height: 100px;
+}
+
+:host {
+  sm-table {
+    display: block;
+    height: 100%;
+    &.compare {
+      height: calc(100% - #{$project-footer-height});
+    }
+  }
+
+  .table-container {
+    height: 100%;
+    width: 100%;
+  }
+
+  .model-name {
+    font-weight: 500;
+    text-overflow: ellipsis;
+    overflow: hidden;
+    white-space: nowrap;
+  }
+
+  .checkbox-col {
+    display: block;
+    position: relative;
+    z-index: 1;
+    float: left;
+    padding: 13px 0 13px 26px;
+    margin-left: -12px;
+
+    &:not(.header) {
+      padding-right: 24px;
+    }
+
+    &.header.minimised {
+      padding-left: 33px;
+    }
+  }
+
+  .drop-down {
+    padding-left: 4px;
+    pointer-events: initial;
+    cursor: pointer;
+  }
+
+  .compact-columns-data {
+    color: $blue-250;
+    font-size: 12px;
+  }
+
+  sm-table-card-filter-template {
+    margin-left: 1em;
+  }
+}
+
+.menu-title {
+  background-color: white;
+  color: $blue-400;
+  font-size: 15px;
+  font-weight: 500;
+  padding: 6px 12px 0;
+  height: 32px;
+  line-height: 32px;
+}
+
+.dot {
+  color: $blue-400;
+  padding: 0 6px;
+}

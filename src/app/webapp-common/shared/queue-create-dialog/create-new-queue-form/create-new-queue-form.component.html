@@ -1,0 +1,24 @@
+<form class="create-queue-form" #queueForm='ngForm'>
+  <div class="row position-relative">
+    <mat-form-field appearance="outline" class="w-100 pt-3">
+      <mat-error *ngIf="name?.errors?.required">必填</mat-error>
+      <mat-error *ngIf="name?.errors?.minlength">名称至少包含3个字符</mat-error>
+      <mat-error *ngIf="name?.errors?.uniqueName">名称必须是唯一的</mat-error>
+      <mat-label>队列名</mat-label>
+      <input matInput type="text"
+             name="queueName"
+             #name="ngModel"
+             [(ngModel)]="queue.name"
+             required
+             minlength="3"
+             smUniqueNameValidator
+             [existingNames]="queuesNames">
+    </mat-form-field>
+  </div>
+  <br/>
+  <div class="create-queue-button">
+    <button class="btn btn-dark-fill center" [disabled]="queueForm.invalid || (isEdit && queueForm.pristine)"
+            (click)="send()">{{isEdit ? '重命名' : '创建'}}
+    </button>
+  </div>
+</form>

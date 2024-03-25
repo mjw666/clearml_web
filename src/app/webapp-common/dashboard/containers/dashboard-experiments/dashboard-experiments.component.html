@@ -1,0 +1,9 @@
+<div class="recent-header">
+  <div class="recent-title">最近的实验</div>
+  <ng-content select="[header-buttons]"></ng-content>
+</div>
+<div class="table-container">
+  <sm-recent-tasks-table [tasks]="recentTasks"
+                         (taskSelected)="taskSelected($event)">
+  </sm-recent-tasks-table>
+</div>

@@ -1,0 +1,105 @@
+<sm-dialog-template [iconClass]="'al-icon ' + (extend ? 'al-ico-extend' : 'al-ico-clone')" [header]="header">
+  <div *ngIf="!extend; else extendMessage" class="reference">
+    一个基于 <b *ngIf="reference"
+                       [smTooltip]="reference.length > 80 ? reference : undefined">{{reference.length > 80 ? (reference | slice:0:77) + '...' : reference }}</b>
+    的草稿副本将被创建.
+  </div>
+  <ng-template #extendMessage>
+    <div class="reference">
+      A draft copy of <b *ngIf="reference" [smTooltip]="reference.length > 80 ? reference : undefined">{{reference.length > 80 ? (reference | slice:0:77) + '...' : reference }}</b> will be created,
+      with its input model set to the output model of <b *ngIf="reference">{{reference}}</b>.
+    </div>
+  </ng-template>
+  <form #cloneForm="ngForm">
+    <div class="form-container">
+      <mat-form-field class="w-100"
+                      appearance="outline"
+                      hideRequiredMarker="true"
+                      (mousedown)="!isFocused(projectInputRef) && projectInput.value && clear(); projectInputRef.blur(); projectInputRef.focus()">
+        <mat-label>关联项目</mat-label>
+        <input matInput type="text"
+               autocomplete="off"
+               [matAutocomplete]="auto"
+               [(ngModel)]="formData.project"
+               name="projectName"
+               #projectInput="ngModel"
+               #projectInputRef
+               required
+               minlength="3"
+               (keydown.enter)="projectInput.control.markAsTouched()"
+               smUniqueNameValidator
+               [existingNames]="readOnlyProjects$ | async">
+        <span matSuffix *ngIf="(!isAutoCompleteOpen) && (!$any(formData.project)?.value) && formData.project && !($any(formData.project) | stringIncludedInArray: projectsNames)"
+              class="creat-new-suffix">(创建新的)</span>
+        <i matSuffix class="al-icon sm-md search-icon me-2" [ngClass]="formData.project? 'al-ico-dialog-x pointer' : 'al-ico-search'"
+           (click)="formData.project && clear(); projectInputRef.focus()"
+           smClickStopPropagation></i>
+        <mat-error *ngIf="cloneForm.controls.projectName?.errors?.required">请选择项目</mat-error>
+        <mat-error *ngIf="cloneForm.controls.projectName?.errors?.minlength">请输入超过3个字符的名称</mat-error>
+        <mat-error *ngIf="cloneForm.controls.projectName?.errors?.uniqueName">请提供与此项目名称不同的名称
+        </mat-error>
+        <mat-error *ngIf="projectInput.touched && projectInput.errors?.emptyName && !projectInput.errors?.minlength">*项目名称不能只包含空格.</mat-error>
+      </mat-form-field>
+      <mat-autocomplete #auto="matAutocomplete"
+                        name="ExperimentProject"
+                        class="light-theme"
+                        [displayWith]="displayFn"
+                        (opened)="setIsAutoCompleteOpen(true)"
+                        (closed)="setIsAutoCompleteOpen(false)"
+                        autoActiveFirstOption
+      >
+        <mat-option
+          class="item"
+          *ngIf="!projectInput?.errors && projects !== null && projectInput.value && !(projectInput.value | stringIncludedInArray:projectsNames)"
+          [value]="projectInput.value"
+        >"{{projectInput.value.label || projectInput.value}}" <span class="new">(创建新的)</span></mat-option>
+        <mat-option *ngFor="let project of projects; trackBy: trackByFn" [value]="project" [smTooltip]="project.label" smShowTooltipIfEllipsis>
+          {{project.label}}
+        </mat-option>
+        <div *ngIf="projects === null" class="p-4 pe-none">
+          <mat-spinner class="m-auto" [diameter]="32" [strokeWidth]="4" color="accent"></mat-spinner>
+        </div>
+        <div *ngIf="projects && !noMoreOptions" (smScrollEnd)="!loading && loadMore()" class="text-center">加载中...</div>
+        <mat-option disabled style="height: 0; min-height: 0;"></mat-option> <!-- Empty mat-option, so the autocomplete menu will always pop -->
+      </mat-autocomplete>
+      <mat-form-field class="w-100" appearance="outline">
+        <mat-label>名称</mat-label>
+        <input
+          required
+          matInput
+          autocomplete="off"
+          name="ExperimentName"
+          [(ngModel)]="formData.name"
+        />
+        <mat-error *ngIf="cloneForm.controls?.ExperimentName?.errors?.required">请输入名称</mat-error>
+      </mat-form-field>
+      <mat-checkbox
+        *ngIf="type === 'experiment'"
+        name="forceParent"
+        [checked]="forceParent$ | async"
+        (change)="formData.forceParent = $event.checked"
+      >设置 <b *ngIf="reference" [smTooltip]="reference.length > 80 ? reference : undefined">{{reference.length > 80 ? (reference | slice:0:77) + '...' : reference }}</b> <span style="white-space: nowrap">为父数据集</span> </mat-checkbox>
+      <mat-form-field class="w-100" appearance="outline"
+                      hideRequiredMarker="true">
+        <mat-label>描述</mat-label>
+        <textarea
+          class="clone-description"
+          rows="3"
+          name="ExperimentComment"
+          matInput
+          [(ngModel)]="formData.comment"></textarea>
+      </mat-form-field>
+
+      <div class="buttons">
+        <button cdkFocusInitial (click)="closeDialog(true)" [disabled]="!cloneForm.valid"
+                class="btn btn-neon yes-button" data-id="CloneButton" #cloneButton>
+          {{extend ? '拓展' : '复制'}}
+        </button>
+        <button (click)="closeDialog(false)" class="btn btn-outline-neon" data-id="CancelButton">
+          取消
+        </button>
+
+      </div>
+    </div>
+  </form>
+</sm-dialog-template>

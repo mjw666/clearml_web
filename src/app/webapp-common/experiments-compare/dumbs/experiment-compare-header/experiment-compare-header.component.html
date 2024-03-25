@@ -1,0 +1,94 @@
+<div class="header-container">
+  <div class="actions-container">
+    <span class="d-flex">
+        <button class="btn btn-secondary btn-add-experiment" (click)="showGlobalLegend()">
+          <span>{{entityType | uppercase}}S</span>
+        </button>
+        <button [smTooltip]="(allowAddExperiment$ | async) ?
+      'Add/Remove ' + entityType + 's to comparison' :
+      compareLimitations + ' or fewer ' + entityType + 's can be compared'"
+                (click)="openAddExperimentSearch()" class="btn btn-secondary btn-add-experiment plus"><i
+          class="al-icon al-ico-plus sm-md" data-id="addExperimentButton"></i></button>
+    </span>
+    <mat-form-field *ngIf="viewMode" appearance="outline" class="no-bottom">
+      <mat-select
+        class="view-mode"
+        panelClass="light-theme"
+        [value]="viewMode"
+        [disableOptionCentering]="true"
+        (selectionChange)="changeView($event)"
+      >
+        <mat-select-trigger>
+          <i data-id="viewTypeMenuOption" class="fas me-2"
+             [ngClass]="{'fa-align-left': viewMode.endsWith('values'), 'fa-chart-area': viewMode === 'graph'}"></i>
+          <ng-container [ngSwitch]="true">
+            <span *ngSwitchCase="currentPage === 'hyper-params' && viewMode === 'graph'">Parallel Coordinates</span>
+            <span *ngSwitchCase="currentPage === 'hyper-params' && viewMode === 'scatter'"><i class="al-icon al-ico-no-scatter-graph sm me-2"></i>Scatter Plot</span>
+            <span *ngSwitchCase="currentPage === 'scalars' && viewMode === 'graph'">Graph</span>
+            <span *ngSwitchCase="currentPage === 'scalars' && viewMode === 'values'">Last Values</span>
+            <span *ngSwitchDefault>{{(queryParamsViewMode$ | async) || viewMode | noUnderscore | titlecase}}</span>
+          </ng-container>
+        </mat-select-trigger>
+        <ng-container *ngIf="currentPage === 'scalars'; else: otherOptions">
+          <mat-option value="values" class="compare-mat-option">
+            <i class="fas fa-align-left me-2"></i>Last Values
+          </mat-option>
+          <mat-option *ngIf="currentPage === 'scalars'" value="min-values" class="compare-mat-option">
+            <i class="fas fa-align-left me-2"></i>Min Values
+          </mat-option>
+          <mat-option *ngIf="currentPage === 'scalars'" value="max-values" class="compare-mat-option">
+            <i class="fas fa-align-left me-2"></i>Max Values
+          </mat-option>
+        </ng-container>
+        <ng-template #otherOptions>
+          <mat-option value="values" class="compare-mat-option">
+            <i class="fas fa-align-left me-2"></i>Values
+          </mat-option>
+        </ng-template>
+        <mat-option value="graph" class="compare-mat-option">
+          <i class="fas fa-chart-area me-2"></i>{{currentPage === 'hyper-params' ? 'Parallel Coordinates' : 'Graph'}}
+        </mat-option>
+        <mat-option *ngIf="currentPage === 'hyper-params'" value="scatter" class="compare-mat-option">
+          <i class="al-icon al-ico-no-scatter-graph sm me-2"></i>Scatter Plot
+        </mat-option>
+      </mat-select>
+    </mat-form-field>
+
+    <div id="nextDiff" class="next-diff"></div>
+
+    <mat-slide-toggle
+      *ngIf="['hyper-params', 'details', 'models-details', 'network'].includes(currentPage) && viewMode !== 'graph' && viewMode !== 'scatter'"
+      (change)="hideIdenticalFieldsToggled($event)"
+      [checked]="selectHideIdenticalFields$ | async">隐藏相同的字段
+    </mat-slide-toggle>
+
+    <mat-slide-toggle color="primary"
+                      *ngIf="['scalars'].includes(currentPage) && viewMode !== 'graph'"
+                      (change)="showExtremesToggled($event)"
+                      [checked]="selectShowRowExtremes$ | async">Show row extremes
+    </mat-slide-toggle>
+
+  </div>
+
+  <div id="searchDiff"></div>
+
+  <div class="settings">
+    <button *ngIf="['scalars'].includes(currentPage) && viewMode !== 'graph'"
+            class="btn export-button"
+            (click)="exportCSV()"
+            smTooltip="Export to CSV">
+      <i class="al-icon al-ico-download"></i>
+    </button>
+    <!--      <div -->
+    <!--              class="export-button pointer"-->
+    <!--              (click)="showGlobalLegend()"-->
+    <!--              smTooltip="Show legend">-->
+    <!--          <i class="al-icon al-ico-legend"></i>-->
+    <!--      </div>-->
+    <sm-refresh-button
+      (setAutoRefresh)="setAutoRefresh($event)"
+      class="light-theme"
+    >
+    </sm-refresh-button>
+  </div>
+</div>

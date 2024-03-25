@@ -1,0 +1,9 @@
+<i class="al-icon al-ico-filter-reset"
+   [class.disabled]="!isTableFiltered"
+   [class.pointer]="isTableFiltered"
+   smTooltip="清除所有过滤项"
+   data-id="Clear All Filter"
+   (click)="isTableFiltered && clearTableFilters.emit()"
+>
+  <span class="path1"></span><span class="path2"></span>
+</i>

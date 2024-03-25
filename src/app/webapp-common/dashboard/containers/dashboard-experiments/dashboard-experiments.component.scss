@@ -1,0 +1,20 @@
+@import "../../../shared/ui-components/styles/mixins/common";
+
+:host {
+  .recent-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding-bottom: 12px;
+  }
+
+  .table-container {
+    height: calc(100% - 38px);
+    min-height: 180px;
+    overflow-y: auto;
+  }
+
+  .recent-title {
+    @include recent-title();
+  }
+}

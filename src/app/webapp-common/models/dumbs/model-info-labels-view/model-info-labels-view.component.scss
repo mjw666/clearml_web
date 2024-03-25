@@ -1,0 +1,66 @@
+@import "variables";
+
+
+:host {
+  .body {
+    display: grid;
+    grid-template-columns: 1fr 1fr auto;
+    grid-gap: 12px;
+  }
+
+  .header {
+    margin-right: -24px;
+    .cell {
+      border-bottom: 2px solid $blue-100;
+    }
+  }
+
+  .table {
+    height: calc(100% - 16px);
+    margin-right: -24px;
+  }
+
+  .cell {
+    flex: 1;
+    height: 48px;
+    line-height: 48px;
+    border-bottom: 1px solid $blue-50;
+    font-weight: 500;
+
+    &:last-child {
+      margin-right: 24px;
+    }
+  }
+
+  .body-container {
+    height: 100%;
+    overflow: auto;
+    margin-right: -24px;
+    padding-right: 24px;
+  }
+
+  form.edit {
+    height: calc(100% - 96px);
+  }
+
+  .content {
+    height: calc(100% - 20px);
+    overflow: auto;
+  }
+
+  .trash {
+    width: 48px;
+    height: 33px;
+  }
+
+  .plus {
+    width: 48px;
+  }
+  .outside-error {
+    position: absolute;
+    top: 35px;
+    left: 90px;
+    font-size: 11px;
+    color: red;
+  }
+}

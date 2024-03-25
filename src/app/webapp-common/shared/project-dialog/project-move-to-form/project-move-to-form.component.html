@@ -1,0 +1,81 @@
+<div class="dynamic-subtitle">
+  <div>从</div>
+  <div><span class="p-name">{{projectName | projectLocation}}</span> 移动 <span class="p-name">{{projectName | shortProjectName}}</span></div>
+  <div>到</div>
+  <div><span *ngIf="project.parent; else placeH" class="p-name">{{project.parent}}</span> <ng-template #placeH><span class="p-holder">目标路径</span></ng-template></div>
+</div>
+<form #moveToForm="ngForm" (submit)="send()">
+  <mat-form-field class="w-100"
+                  appearance="outline"
+                  hideRequiredMarker="true"
+                  (mousedown)="!isFocused(projectInputRef) && projectInput.value && projectInput.reset(); projectInputRef.blur(); projectInputRef.focus()">
+    <mat-label>目标路径</mat-label>
+    <input matInput type="text"
+           [matAutocomplete]="auto"
+           [(ngModel)]="project.parent"
+           name="projectName"
+           placeholder="搜索项目路径"
+           #projectInputRef
+           #projectInput="ngModel"
+           smUniquePathValidator
+           [currentName]="projectName | shortProjectName"
+           [existingPaths]="projectsNames"
+           smUniqueNameValidator
+           smInvalidPrefixValidator
+           [invalidPrefix]="projectName"
+           [existingNames]="[projectName | projectLocation]"
+           required
+           minlength="3"
+           (keydown.enter)="projectInput.control.markAsTouched()"
+    >
+    <span matSuffix *ngIf="projectsNames && (projectName !== project.parent) && projectInput.value &&
+     (!isAutoCompleteOpen) && !(projectInput.value | stringIncludedInArray:projectsNames)" class="creat-new-suffix">(Create New)</span>
+    <i matSuffix class="al-icon sm-md search-icon me-2" [ngClass]="project.parent? 'al-ico-dialog-x pointer' : 'al-ico-search'"
+       (click)="project.parent && clear(); projectInputRef.focus()"
+       smClickStopPropagation></i>
+    <mat-error *ngIf="projectInput?.errors?.required">请输入项目</mat-error>
+    <mat-error *ngIf="projectInput?.errors?.minlength">请提供超过3个字符的项目名称</mat-error>
+    <mat-error *ngIf="projectInput?.errors?.uniqueName && !projectInput?.errors?.required">无法将项目移动到当前位置</mat-error>
+    <mat-error *ngIf="projectInput?.errors?.invalidPrefix">无法将项目移动到其嵌套项目中</mat-error>
+    <mat-error *ngIf="projectInput?.errors?.uniquePath">{{projectInput.value}} 已包含一个名为 {{projectName | shortProjectName}}</mat-error>
+    <mat-error *ngIf="projectInput.touched && projectInput.errors?.emptyName && !projectInput.errors?.minlength">*项目名称不能只包含空格.</mat-error>
+    <mat-autocomplete #auto="matAutocomplete"
+                      name="ExperimentProject"
+                      (opened)="setIsAutoCompleteOpen(true)"
+                      (closed)="setIsAutoCompleteOpen(false)"
+                      (optionSelected)="locationSelected($event)"
+                      class="light-theme"
+                      classList="light-theme"
+                      autoActiveFirstOption
+    >
+      <mat-option
+        class="item"
+        *ngIf="projectsNames !== null && projectInput.value && !(projectInput.value | stringIncludedInArray:projectsNames)"
+        [value]="projectInput.value"
+        (onSelectionChange)="createNewSelected($event)"
+      >"{{projectInput.value}}" <span class="new">(Create New)</span></mat-option>
+      <mat-option *ngFor="let projectName of projectsNames"
+                  [value]="projectName"
+                  [smTooltip]="projectName"
+                  smShowTooltipIfEllipsis
+                  (onSelectionChange)="optionSelected()">
+        <div [smSearchText]="projectInput.value">{{projectName}}</div>
+      </mat-option>
+      <div *ngIf="projectsNames === null" class="p-4 pe-none">
+        <mat-spinner class="m-auto" [diameter]="32" [strokeWidth]="4" color="accent"></mat-spinner>
+      </div>
+      <div *ngIf="projects && !noMoreOptions" (smScrollEnd)="!loading && loadMore(projectInput.value)" class="text-center">Loading more...</div>
+      <mat-option disabled style="height: 0; min-height: 0;"></mat-option> <!-- Empty mat-option, so the autocomplete menu will always pop -->
+    </mat-autocomplete>
+  </mat-form-field>
+</form>
+<div class="buttons d-flex justify-content-center">
+  <button [disabled]="projectName === project?.parent || moveToForm.invalid" (click)="send()" cdkFocusInitial
+          data-id="MoveButton" class="btn btn-neon yes-button" #moveButton>
+    移动
+  </button>
+  <button (click)="closeDialog()" data-id="CancelButton" class="btn btn-outline-neon">
+    取消
+  </button>
+
+</div>

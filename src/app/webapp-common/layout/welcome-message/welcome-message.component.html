@@ -1,0 +1,184 @@
+<sm-dialog-template [displayX]="true"
+                    [header]="queue? '没有工作被分配到队列': (step === 1 ? 'Welcome to ClearML' : (showTabs? '创造新的实验' : '开始'))"
+                    [subHeader]="showTabs ? '要创建一个新的实验，您可以运行带有ClearML SDK的ML代码，或者通过复制来重新启动以前运行的实验.' : ''"
+                    (xClicked)="closeDialog()" [closeOnX]="false"
+                    [iconClass]="queue?'al-ico-queues': 'i-welcome-researcher'" xmlns="http://www.w3.org/1999/html">
+
+  <nav *ngIf="showTabs" class="pointer">
+    <div *ngFor="let link of links; trackBy: trackByFn"
+         class="d-flex-center nav-item h-100"
+         [class.selected]="link === currentLink"
+         (click)="showSection(link)"
+         >{{link}}</div>
+    <div class="d-flex-center nav-item h-100" (click)="showSection('videoTab')" [class.selected]="currentLink === 'videoTab'">
+      <i class="al-icon al-ico-video sm-md"></i>
+    </div>
+  </nav>
+
+  <div *ngIf="step === 1; else configStep" class="welcome-content">
+    <div class="body">
+      <div class="info">
+        <span class="position-relative">
+          <i class="al-ico-card-example foreground"></i>
+          <span class="background"></span>
+        </span>
+        <div class="mt-2">请参阅预加载的示例，以快速熟悉ClearML的各种功能.</div>
+      </div>
+      <div class="info">
+        <i class="al-ico-help-outlined"></i>
+        <div class="mt-2">浏览“帮助”菜单中的“专业提示”以开始您的工作流程v.</div>
+      </div>
+      <div class="info">
+        <i class="al-ico-documentation"></i>
+        <div class="mt-2">请查看<a target="_blank" [href]="docsLink">ClearML文档</a>获取高级信息和深入的操作方法.
+        </div>
+      </div>
+    </div>
+    <div class="separator"></div>
+    <div class="d-flex justify-content-center">
+      <button class="btn btn-neon" (click)="nextSteps($event)">开始</button>
+    </div>
+  </div>
+  <ng-template #configStep>
+    <div class="steps-content">
+      <div class="text" *ngIf="queue">
+        {{entityName}} 已经加入 <b>{{queue?.name}}</b> 队列, 它目前没有任何工作提供服务。它们将保持在“pending”状态，直到ClearML工作线程为这个队列提供服务.
+      </div>
+      <ng-container *ngIf="!currentLink || currentLink === links[0]">
+        <div *ngFor="let step of steps; let i = index; trackBy: trackById" class="step-container">
+          <div class="step-header">{{step.header}}</div>
+          <div class="step">{{step.title}}</div>
+          <nav class="config-nav" *ngIf="step.title==='2. Configure'">
+            <sm-navbar-item header="LOCAL PYTHON" [active]="!isJupyter" data-id="LocalPythonTab" class="small-nav" (click)="setIsJupyter(false)"></sm-navbar-item>
+            <sm-navbar-item header="JUPYTER NOTEBOOK" [active]="isJupyter" data-id="JupyterNotebookTab" class="small-nav" (click)="setIsJupyter(true)"></sm-navbar-item>
+          </nav>
+          <div class="step sub-note mt-2 mb-2">{{isJupyter? 'Set the ClearML environment for your notebook':'运行ClearML脚本'}}</div>
+          <div class="code">
+            <div class="content" #stepCode>{{step.code}}</div>
+            <sm-copy-clipboard
+              [hideBackground]="false"
+              [label]="''"
+              [copyIcon]="'al-icon sm-md al-ico-copy-to-clipboard'"
+              data-id="copyButton"
+              theme="text-area"
+              [clipboardText]="stepCode.innerHTML"></sm-copy-clipboard>
+          </div>
+          <div *ngIf="step.subNote || (isJupyter && ((queue && i === 2) || (!queue && i === 1)))" class="sub-note"><i class="me-1 fas fa-info-circle info"></i>
+            <ng-container *ngIf="(isJupyter && ((queue && i === 2) || (!queue && i === 1))); else subNote">
+              <ng-container *ngIf="accessKey; else credentialsNote">
+                在工作设置界面<a target="_blank" href="settings/workspace-configuration">管理证书</a>
+              </ng-container>
+              <ng-template #credentialsNote>
+                填写API证书(如果没有，请创建新的证书)
+              </ng-template>
+            </ng-container>
+            <ng-template #subNote>
+              {{step.subNote}}
+            </ng-template>
+          </div>
+        </div>
+        <div class="step-container cred-step" [class.jupyter]="isJupyter" [class.first-step]="!credentialsCreated" [class.has-ws]="community && workspace.name" [class.has-label]="credentialsLabel">
+          <div class="step sub-note" *ngIf="!isJupyter" >根据提示完成clearml配置信息.</div>
+          <div *ngIf="!credentialsCreated" class="d-flex align-items-end">
+            <button class="mb-2 btn btn-neon create-cred-button" data-id="New Credentials" (click)="createCredentials()">创建新证书
+            </button>
+          </div>
+          <div class="cred-visible" [class.invisible]="!accessKey || isJupyter">
+            <div class="code">
+<div #content class="content"><span class="variable">api</span> {{ '{' }}<ng-container *ngIf="community && workspace.name">
+  <span class="">{{'# ' + workspace.name}}</span></ng-container>
+  <span class="variable">web_server</span><span class="operation">:</span> <span class="string">{{WEB_SERVER_URL}}</span>
+  <span class="variable">api_server</span><span class="operation">:</span> <span class="string">{{displayedServerUrls?.apiServer || API_BASE_URL}}</span>
+<ng-container *ngIf="displayedServerUrls?.filesServer || fileBaseUrl">  <span class="variable">files_server</span><span class="operation">:</span> <span class="string">{{displayedServerUrls?.filesServer || fileBaseUrl}}</span><ng-container *ngIf="credentialsLabel">
+  <span>{{'# ' + credentialsLabel}}</span></ng-container>
+</ng-container>  <span class="variable">credentials</span> {{ '{' }}
+    <span class="string">"access_key"</span> <span class="operation">=</span> <span class="string">"{{accessKey}}"</span>
+    <span class="string">"secret_key"</span> <span class="operation">=</span> <span class="string">"{{secretKey}}"</span>
+  }
+}</div>
+              <sm-copy-clipboard
+                [hideBackground]="false"
+                data-id="copyButton"
+                [label]="''"
+                [copyIcon]="'al-icon sm-md al-ico-copy-to-clipboard'"
+                theme="text-area"
+                [clipboardText]="content.textContent"></sm-copy-clipboard>
+            </div>
+            <div *ngIf="!showTabs" class="sub-note"><i class="me-1 fas fa-info-circle info"></i>在<a target="_blank" href="settings/workspace-configuration">工作设置界面</a>管理证书</div>
+          </div>
+        </div>
+      </ng-container>
+      <ng-container *ngIf="!currentLink || currentLink === links[1]">
+        <div class="step-container" *ngIf="!queue">
+          <div *ngIf="!showTabs" class="step">3. 整合</div>
+          <div class="step sub-note">将ClearML添加到您的代码中。例如:</div>
+          <div class="code" #content><div *ngIf="!showTabs; else: withTabs" class="content"><span class="variable">from</span> {{gettingStartedContext?.packageName || 'clearml'}} <span class="variable">import</span> Task
+task <span class="operation">=</span> Task.<span class="variable">init</span>(project_name<span class="operation">=</span><span class="string">"my project"</span>, task_name<span class="operation">=</span><span class="string">"my task"</span>)</div><ng-template #withTabs><div class="content"><span class="variable">import</span> numpy <span class="variable">as</span> np
+<span class="variable">import</span> matplotlib.pyplot <span class="variable">as</span> plt
+
+# Add the following two lines to your code, to have ClearML automatically log your experiment
+<span class="variable">from</span> clearml <span class="variable">import</span> Task
+task = Task.init(project_name=<span class="string">'My Project'</span>, task_name=<span class="string">'My Experiment'</span>)
+
+# Create a plot using matplotlib, or you can also use plotly
+<code>plt.scatter(np.random.rand(50), np.random.rand(50), c=np.random.rand(50), alpha=0.5)</code>
+# Plot will be reported automatically to clearml
+plt.show()
+
+# Report some scalars
+<span class="variable">for</span> i <span class="variable">in</span> range(100):
+task.get_logger().report_scalar(title=<span class="string">"graph title"</span>, series=<span class="string">"linear"</span>, value=i*2, iteration=i)</div></ng-template>
+            <sm-copy-clipboard
+              [hideBackground]="false"
+              [label]="''"
+              [copyIcon]="'al-icon sm-md al-ico-copy-to-clipboard'"
+              data-id="copyButton"
+              theme="text-area"
+              [clipboardText]="content.textContent"></sm-copy-clipboard></div>
+        </div>
+      </ng-container>
+      <ng-container *ngIf="!queue && (currentLink === links[2])">
+        <div class="step-container">
+          <div class="step">1.复制先前运行的实验</div>
+          <div class="step sub-note mt-2">使用 <span class="bolder">复制</span> 创建新的副本.</div>
+          <div class="step sub-note">你可以改变任何新实验的配置.</div>
+          <div class="step sub-note mt-3">实验表</div>
+          <div class="new-experiment-table"></div>
+
+          <div class="step">2.运行你的实验</div>
+          <div class="step sub-note mt-2">使用 <span class="bolder">“加入队列”</span> 操作将新实验放入一个可用队列的中.</div>
+          <div class="step sub-note mb-1">要让代理服务于队列，请在目标机器上运行:</div>
+          <div class="code">
+            <div #content class="content">clearml-agent daemon —queue &lt;queue name&gt;</div>
+            <sm-copy-clipboard
+              [hideBackground]="true"
+              [label]="''"
+              [copyIcon]="'al-icon sm-md al-ico-copy-to-clipboard'"
+              data-id="copyButton"
+              theme="text-area"
+              [clipboardText]="content.textContent"></sm-copy-clipboard>
+          </div>
+        </div>
+      </ng-container>
+      <ng-container *ngIf="!queue && (currentLink === 'videoTab')">
+        <div class="step-container">
+          <div  [style.height.px]="306"
+                [style.width.px]="544">
+            <youtube-player
+              [videoId]="src"
+              [height]="306"
+              [width]="544"
+            ></youtube-player>
+          </div>
+        </div>
+      </ng-container>
+      <div *ngIf="queue" class="text">
+        <sm-checkbox-control
+          fieldName="orphanedQueue"
+          [formData]="doNotShowAgain"
+          (formDataChanged)="doNotShowThisAgain($event)"
+          label="不再显示"></sm-checkbox-control>
+      </div>
+    </div>
+  </ng-template>
+</sm-dialog-template>

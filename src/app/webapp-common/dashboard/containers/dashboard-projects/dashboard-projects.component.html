@@ -1,0 +1,25 @@
+<div class="sm-card-list-layout" (smOverflows)="overflow = $event">
+  <div #header class="sm-card-list-header">
+    <div class="recent-title">最近项目
+      <button class="btn btn-link view-all" (click)="router.navigateByUrl('/projects')">查看所有</button>
+    </div>
+    <div>
+      <button *ngIf="(recentProjectsList$ | async).length >= cardsInRow || overflow"
+              class="btn btn-cml-primary d-flex align-items-center"
+              data-id="New Project"
+              (click)="openCreateProjectDialog()">
+        <i class="al-icon sm al-ico-add me-2"></i>新建项目
+      </button>
+    </div>
+  </div>
+  <sm-project-card
+    *ngFor="let project of recentProjectsList$ | async; trackBy: trackById"
+    [project]="project" (projectCardClicked)="projectCardClicked($event)"
+    [hideMenu]="true"
+  ></sm-project-card>
+  <sm-plus-card
+    *ngIf="(recentProjectsList$ | async).length < cardsInRow"
+    [folder]="true"
+    (plusCardClick)="openCreateProjectDialog()"
+  ></sm-plus-card>
+</div>

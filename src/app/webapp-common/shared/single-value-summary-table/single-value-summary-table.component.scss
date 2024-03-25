@@ -1,0 +1,147 @@
+@import "src/app/webapp-common/shared/ui-components/styles/variables";
+
+
+.single-table-container {
+  position: relative;
+  width: 100%;
+
+  .summary-header {
+    height: 48px;
+    min-height: 48px;
+    max-height: 48px;
+    padding: 12px;
+    font-size: 16px;
+    color: $blue-600;
+    text-align: center;
+    border-radius: 4px 4px 0 0;
+    border: 1px solid $blue-100;
+    border-bottom: none;
+  }
+
+  .items-container {
+    overflow: scroll;
+
+    .wrapper {
+      position: absolute;
+      top: 48px;
+      left: 0;
+      border-radius: 0 0 4px 4px;
+      border: 1px solid $blue-100;
+      width: 100%;
+      height: calc(100% - 62px);
+      z-index: -1;
+    }
+
+    .item {
+      padding: 12px 24px;
+      text-align: center;
+      margin-bottom: 2px;
+
+      &:not(:last-child) {
+        border-right: solid 1px $blue-100;
+      }
+
+      .variant {
+        color: #71758a;
+        margin-bottom: 6px;
+      }
+
+      .value {
+        color: $blue-500;
+      }
+    }
+  }
+
+  .csv-no-icon {
+    display: none;
+  }
+
+  &.dark-theme {
+
+    .summary-header {
+      color: $blue-300;
+      border-color: $dark-border;
+    }
+
+    .items-container {
+      .wrapper {
+        border-color: $dark-border;
+      }
+
+      .item {
+        &:not(:last-child) {
+          border-color: $dark-border;
+        }
+
+        .variant {
+          color: $blue-300;
+        }
+
+        .value {
+          color: $blue-100;
+        }
+      }
+    }
+
+
+    .csv-no-icon {
+      display: block;
+      background-color: $blue-300;
+      color: #fff;
+      font-size: 10px;
+      padding: 6px 2px;
+      border-radius: 4px;
+      cursor: pointer;
+    }
+
+    .al-ico-csv {
+      display: none;
+    }
+  }
+}
+
+:host {
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 100%;
+
+  .actions {
+    position: absolute;
+    display: flex;
+    align-items: center;
+    top: 12px;
+    right: 12px;
+    gap: 6px;
+    opacity: 0;
+    transition: opacity 300ms ease;
+
+    .clickable-icon {
+      background-color: $blue-300;
+      color: $blue-50;
+      border-radius: 4px;
+      cursor: pointer;
+    }
+  }
+
+  &:hover {
+    .actions {
+      opacity: 1;
+    }
+  }
+
+  /////// DARK THEME //////////
+
+  @supports (-moz-appearance:none) {
+    .single-table-container .items-container {
+      .item {
+        margin-bottom: 12px;
+      }
+
+      .wrapper {
+        height: calc(100% - 60px);
+      }
+    }
+  }
+}

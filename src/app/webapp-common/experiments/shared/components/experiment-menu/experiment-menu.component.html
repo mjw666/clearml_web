@@ -1,0 +1,123 @@
+<div *ngIf="activateFromMenuButton" [matMenuTriggerFor]="experimentMenu"
+     class="cell menu-button al-icon al-ico-bars-menu pointer" data-id="menuIcon"
+></div>
+<div *ngIf="!activateFromMenuButton" #contextTrigger
+     style="visibility: hidden; position: fixed"
+     [style.left.px]="position.x"
+     [style.top.px]="position.y"
+     [matMenuTriggerFor]="experimentMenu">
+</div>
+<mat-menu #experimentMenu="matMenu" [hasBackdrop]="backdrop" class="light-theme entity-context-menu">
+  <ng-container *ngIf="selectedDisableAvailable[menuItems.queue]">
+    <button *ngIf="tableMode || isCompare" mat-menu-item (click)="toggleDetails()" data-id="Details Option">
+      <i [class]="'al-icon '+ icons.DETAILS + ' sm-md'"></i>详情
+    </button>
+
+    <button mat-menu-item (click)="toggleFullScreen(minimizedView)" [disabled]="isSharedAndNotOwner"
+            data-id="View Full Screen Option">
+      <i [class]="'al-icon '+ icons.CHART + ' sm-md'"></i>
+      {{minimizedView ? '全屏查看' : '在表格中查看'}}
+    </button>
+
+    <hr>
+
+    <button mat-menu-item (click)="manageQueueClicked()"
+            [disabled]="selectedDisableAvailable[menuItems.queue].disable" data-id="Manage Queue Option">
+      <i [class]="'al-icon '+ icons.QUEUED + ' sm-md'"></i>
+      {{selectedDisableAvailable[menuItems.queue]?.available | menuItemText : '管理队列' : selectedDisableAvailableIsMultiple}}
+    </button>
+
+    <button mat-menu-item (click)="viewWorkerClicked()"
+            [disabled]="selectedDisableAvailable[menuItems.viewWorker].disable" data-id="View Worker Option">
+      <i [class]="'al-icon '+ icons.WORKER + ' sm-md'"></i>
+      {{selectedDisableAvailable[menuItems.viewWorker]?.available | menuItemText : '查看工作' : selectedDisableAvailableIsMultiple}}
+    </button>
+
+    <hr>
+
+    <button mat-menu-item (click)="shareExperimentPopup()" *ngIf="isCommunity"
+            [disabled]="isExample || numSelected > 1  || isArchive">
+      <i [class]="'al-icon '  + icons.SHARE + ' sm-md'"></i>分享链接
+    </button>
+
+    <button mat-menu-item (click)="deleteExperimentPopup()" data-id="Delete Option" *ngIf="isArchive && !isCompare"
+            [disabled]="selectedDisableAvailable[menuItems.delete].disable">
+      <i [class]="'al-icon ' + icons.REMOVE + ' sm-md'"></i>
+      {{selectedDisableAvailable[menuItems.delete].available | menuItemText : '删除' : selectedDisableAvailableIsMultiple}}
+    </button>
+
+    <button mat-menu-item (click)="restoreArchive()" data-id="Archive Option" *ngIf="!isCompare"
+            [disabled]="selectedDisableAvailable[menuItems.archive].disable">
+      <i class="al-icon sm-md" [class]="isArchive ? icons.RESTORE : icons.ARCHIVE"></i>
+      {{selectedDisableAvailable[menuItems.archive].available | menuItemText : isArchive ? '从存档恢复' : '存档' : selectedDisableAvailableIsMultiple}}
+    </button>
+
+    <button mat-menu-item (click)="enqueuePopup()" data-id="Enqueue Option"
+            *ngIf="!selectedDisableAvailable[menuItems.enqueue].disable && !isArchive"
+            [disabled]="selectedDisableAvailable[menuItems.enqueue].disable">
+      <i [class]="'al-icon ' + icons.ENQUEUE + ' sm-md'"></i>
+      {{selectedDisableAvailable[menuItems.enqueue]?.available | menuItemText : '加入队列' : selectedDisableAvailableIsMultiple}}
+    </button>
+
+    <button mat-menu-item (click)="dequeuePopup()" data-id="Dequeue Option"
+            *ngIf="!selectedDisableAvailable[menuItems.dequeue].disable"
+            [disabled]="selectedDisableAvailable[menuItems.dequeue]?.disable">
+      <i [class]="'al-icon ' + icons.DEQUEUE + ' sm-md'"></i>
+      {{selectedDisableAvailable[menuItems.dequeue]?.available | menuItemText : '离开队列' : selectedDisableAvailableIsMultiple}}
+    </button>
+
+    <button mat-menu-item (click)="resetPopup()" data-id="Reset Option"
+            [disabled]="selectedDisableAvailable[menuItems.reset].disable">
+      <i [class]="'al-icon ' + icons.RESET + ' sm-md'"></i>
+      {{selectedDisableAvailable[menuItems.reset].available | menuItemText : '重置' : selectedDisableAvailableIsMultiple}}
+    </button>
+
+    <button mat-menu-item (click)="stopPopup()" data-id="Abort Option"
+            [disabled]="selectedDisableAvailable[menuItems.abort].disable">
+      <i [class]="'al-icon ' + icons.STOPPED + ' sm-md'"></i>
+      {{selectedDisableAvailable[menuItems.abort].available | menuItemText : '停止' : selectedDisableAvailableIsMultiple }}
+    </button>
+
+    <button mat-menu-item (click)="stopAllChildrenPopup()"
+            *ngIf="!selectedDisableAvailable[menuItems.abortAllChildren]?.disable">
+      <i [class]="'al-icon ' + icons.STOPPED_ALL + ' sm-md'"></i>
+      {{selectedDisableAvailable[menuItems.abortAllChildren]?.available | menuItemText : '停止所有子工作' : selectedDisableAvailableIsMultiple }}
+    </button>
+    <button
+      mat-menu-item
+      (click)="publishPopup()" data-id="Publish Option"
+      [disabled]="selectedDisableAvailable[menuItems.publish].disable">
+      <i [class]="'al-icon ' + icons.PUBLISHED + ' sm-md'"></i>
+      {{selectedDisableAvailable[menuItems.publish].available | menuItemText : '发布' : selectedDisableAvailableIsMultiple }}
+    </button>
+    <hr>
+    <button mat-menu-item
+            [matMenuTriggerFor]="tagMenu.matMenu" data-id="Add Tag Option"
+            [disabled]="selectedDisableAvailable[menuItems.tags]?.disable"
+            (menuOpened)="tagMenuOpened()"
+            (menuClosed)="tagMenuClosed()">
+      <i [class]="'al-icon ' + icons.TAG + ' sm-md'">
+      </i><span>{{selectedDisableAvailable[menuItems.tags]?.available | menuItemText : '添加标签' : selectedDisableAvailableIsMultiple }}</span>
+    </button>
+    <hr>
+    <button mat-menu-item (click)="clonePopup()" data-id="Clone Option">
+      <i [class]="'al-icon ' + icons.CLONE + ' sm-md'"></i>复制
+    </button>
+    <button mat-menu-item (click)="moveToProjectPopup()" data-id="Move To Project Option"
+            [disabled]="selectedDisableAvailable[menuItems.moveTo].disable">
+      <i [class]="'al-icon ' + icons.MOVE_TO + ' sm-md'"></i>
+      {{selectedDisableAvailable[menuItems.moveTo].available | menuItemText : '转到项目' : selectedDisableAvailableIsMultiple}}
+    </button>
+    <ng-content select="[extended]"></ng-content>
+  </ng-container>
+</mat-menu>
+
+<sm-tags-menu
+  #tagMenu
+  class="light-theme"
+  [tags]="experiment?.tags"
+  [tagsFilterByProject]="!allProjects && tagsFilterByProject"
+  [projectTags]="projectTags"
+  [companyTags]="companyTags"
+  (tagSelected)="tagSelected.emit($event)">
+</sm-tags-menu>

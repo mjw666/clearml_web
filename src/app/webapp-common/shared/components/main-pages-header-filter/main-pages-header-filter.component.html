@@ -1,0 +1,47 @@
+<div mat-button class='cell pointer'>
+  <i [class]="'al-icon ' + ((showOnlyUserWork$ | async)||  ((tagsFilters$ | async)?.length > 0)? 'al-ico-filter-on':'al-ico-filter-off')" [matMenuTriggerFor]="menu"><span class="path1" data-id="FilterMenuIcon"></span><span class="path2"></span></i>
+</div>
+<mat-menu #menu="matMenu" class="light-theme" (close)="closeMenu()">
+  <button mat-menu-item
+          smClickStopPropagation
+          class="user-filter-button"
+          (click)="switchUserFocus()">
+    <i [class.al-ico-success]="showOnlyUserWork$ | async" class="al-icon sm-md" data-id="MyworkCheckbox"></i>
+    <div class="me-3" data-id="MyWorkFilterOption">我的工作</div>
+  </button>
+  <button mat-menu-item [matMenuTriggerFor]="subMenu" class="d-flex align-items-center">
+    <i [class.hidden]="!((tagsFilters$ | async)?.length > 0)" class="filter-point al-icon sm-md al-ico-success" data-id="TagCheckbox" ></i>
+    <span data-id="TagOption" >标签</span>
+  </button>
+  <mat-menu #subMenu="matMenu" class="table-card-filter-menu light-theme" (close)="closeMenu()">
+    <form class="filter-form">
+      <mat-form-field appearance="fill"  smClickStopPropagation class="tags-menu-input w-100 no-bottom">
+        <input matInput (input)="setSearchTerm($event)" name="filter" [(ngModel)]="searchTerm" autocomplete="off">
+        <i matSuffix class="fa me-3" [class]="searchTerm ? 'fa-times pointer' : 'fa-search'" (click)="searchTerm && clearSearch()" data-id="TagsearchIcon"></i>
+      </mat-form-field>
+    </form>
+    <div class="filter-type" smClickStopPropagation>
+          <span data-id="AnyTagOption" class="link me-3" [class.selected]="matchMode !== 'AND'"
+                (click)="toggleMatch()">Any</span>
+      <span data-id="allTagOption" class="link" [class.selected]="matchMode === 'AND'"
+            (click)="toggleMatch()">All</span>
+    </div>
+    <div class="results scroll"  smClickStopPropagation>
+      <sm-checkbox-three-state-list
+        [supportExcludeFilter]="true"
+        [checkedList]="tagsFilters$ | async"
+        [options]="tagsLabelValue | filter : searchTerm: 'label'"
+        (filterChanged)="emitFilterChangedCheckBox( $event)"
+      > </sm-checkbox-three-state-list>
+    </div>
+    <div *ngIf="tagsLabelValue?.length>0" class="column-explanation">Click to include tag. Click again to exclude.</div>
+  </mat-menu>
+  <hr/>
+  <button mat-menu-item
+          [disabled]="!((showOnlyUserWork$ | async) ||  ((tagsFilters$ | async)?.length > 0))"
+          smClickStopPropagation
+          class="user-filter-button"
+          (click)="clearAll()">
+    <div class="lbl" data-id="clearAllFilter">清除所有</div>
+  </button>
+</mat-menu>

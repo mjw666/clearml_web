@@ -1,0 +1,55 @@
+@import "variables";
+@import "../../../../webapp-common/layout/layout.scss";
+
+:host {
+  display: flex;
+
+  > div {
+    height: $graph-height;
+  }
+
+  .chart-container {
+    padding: 20px 20px 0;
+    background-color: $black;
+    border: 1px solid $dark-grey-blue;
+    width: 50%;
+
+    &.right {
+      margin-left: 20px;
+    }
+
+    .line-chart-container {
+      height: calc(100% - 48px);
+      position: relative;
+      z-index: 500;
+    }
+
+    .header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      width: 100%;
+      white-space: nowrap;
+      margin-bottom: 12px;
+
+      .title {
+        display: flex;
+        align-items: center;
+        margin-right: 16px;
+        font-size: 15px;
+        text-transform: uppercase;
+        white-space: nowrap;
+        overflow: hidden;
+      }
+
+      .time-selector {
+        width: 150px;
+      }
+    }
+
+    .warnning {
+      margin-left: 10px;
+      color: $neon-yellow;
+    }
+  }
+}

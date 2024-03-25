@@ -1,0 +1,35 @@
+<form class="filter-form p-4" smClickStopPropagation smKeyDownStopPropagation [formGroup]="iterationsForm">
+  <mat-form-field appearance="outline" class="no-bottom">
+    <mat-label>Equals or greater than</mat-label>
+    <input
+      type="text"
+      matInput
+      formControlName="greaterThan"
+      data-id="Equals Or GreaterThan"
+      [errorStateMatcher]="immediate"
+    >
+    <i matSuffix
+       data-id="cross button"
+       class="al-icon al-ico-dialog-x sm me-2"
+       (click)="iterationsForm.get('greaterThan').setValue(null)"
+    ></i>
+  </mat-form-field>
+  <sm-divider [label]="'and'"></sm-divider>
+  <mat-form-field appearance="outline" class="no-bottom">
+    <mat-label>Equals or less than</mat-label>
+    <input
+      type="text"
+      matInput
+      formControlName="lessThan"
+      data-id="Equals Or LessThan"
+      name="greaterThan"
+      [errorStateMatcher]="immediate"
+    >
+    <i matSuffix
+       data-id="cross button"
+       class="al-icon al-ico-dialog-x sm me-2"
+       (click)="iterationsForm.get('lessThan').setValue(null)"
+    ></i>
+  </mat-form-field>
+</form>
+<sm-table-filter-duration-error *ngIf="hasTimeError"  [isFullWidth]="true"></sm-table-filter-duration-error>

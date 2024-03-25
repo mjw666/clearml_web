@@ -1,0 +1,171 @@
+@import "variables";
+
+:host {
+  display: block;
+  height: 100%;
+  overflow-y: auto;
+
+  .connector-icon-container {
+    width: 32px;
+    height: 32px;
+    background: $blue-50;
+
+    &.active {
+      background: #fff;
+    }
+
+    border-radius: 32px;
+    position: absolute;
+    right: -16px;
+    top: 152px;
+    z-index: 1;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: $blue-300;
+
+    &.hidden {
+      display: none;
+    }
+  }
+
+  .navigator-container {
+    height: 60px;
+
+    &.active {
+      background: $blue-50;
+    }
+
+    border-radius: 0;
+    margin: 0 0 24px -24px;
+    padding: 8px 0 4px 48px;
+
+    &.first {
+      border-radius: 6px 0 0 6px;
+      margin: 0 0 24px 0;
+      padding-left: 24px;
+    }
+
+    &.last {
+      border-radius: 0 6px 6px 0;
+      margin: 0 24px 24px -24px;
+    }
+
+  }
+
+  header {
+    margin-bottom: 24px;
+
+    .experiment-name {
+      font-size: 18px;
+      max-width: 93%;
+      display: inline-block;
+      white-space: nowrap;
+
+      a {
+        text-decoration: unset;
+        display: block;
+        width: 100%;
+        color: inherit;
+      }
+    }
+  }
+
+  .al-icon.disabled {
+    pointer-events: none;
+  }
+}
+
+sm-debug-images-view {
+  display: block;
+}
+
+.debug-images {
+
+}
+
+.images-container {
+  display: flex;
+  min-height: 100%;
+
+  .limit-message-container {
+    width: 360px;
+    flex: 0 0 360px;
+    display: flex;
+
+    .limit-message {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      padding: 24px 48px;
+      text-align: center;
+
+      i {
+        color: $info-color
+      }
+    }
+  }
+}
+
+.no-images {
+  text-align: center;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translateY(-50%) translateX(-50%);
+  display: block;
+  color: $blue-100;
+  line-height: 1.2;
+  h4 {color: $blue-100;}
+
+  &.dark {
+    color: $blue-250;
+    font-size: 12px;
+
+    path {
+      opacity: 1;
+      fill: $dark-grey-blue;
+    }
+  }
+}
+
+.metric-bar {
+  grid-gap: 12px;
+  display: inline-grid;
+  grid-template-columns: auto 200px auto auto auto auto auto auto auto;
+  align-items: center;
+
+  &.minimized {
+    margin: 0 0 24px;
+  }
+}
+
+.single-debug-images-container {
+  display: block;
+  position: relative;
+  flex: 1;
+  min-width: 640px;
+  min-height: 100%;
+  color: $blue-500;
+  margin: 0 12px;
+
+  &.separator:not(:last-child) {
+    border-right: 1px solid $blue-100;
+  }
+
+}
+
+.bordered-experiments {
+  .single-debug-images-container {
+    border: 1px solid $blue-250;
+    border-radius: 6px;
+    padding: 24px;
+  }
+}
+
+.i-no-debug-samples {
+  width: 300px;
+  height: 250px;
+}
+
+

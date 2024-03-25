@@ -1,0 +1,26 @@
+<sm-menu
+  *ngIf="menuOpen"
+  [position]="menuPosition"
+  [header]=""
+  buttonClass="al-icon sm-md al-ico-bars-menu al-color blue-300"
+  [showCart]="false"
+  [showOverlay]="false"
+  [showButton]="false"
+  [openOnInit]="true"
+>
+  <sm-menu-item
+    *ngIf="queuesManager"
+    itemLabel="删除"
+    [disabled]="selectedQueue?.entries?.length>0"
+    (itemClicked)="deleteQueue.emit(selectedQueue)"></sm-menu-item>
+  <sm-menu-item
+    *ngIf="queuesManager"
+    itemLabel="重命名"
+    (itemClicked)="renameQueue.emit(selectedQueue)"></sm-menu-item>
+  <sm-menu-item
+    itemLabel="清除"
+    (itemClicked)="clearQueue.emit(selectedQueue)"
+    [disabled]="selectedQueue?.entries?.length===0"></sm-menu-item>
+  <ng-content select="[extendedQueuesMenu]"></ng-content>
+</sm-menu>
+

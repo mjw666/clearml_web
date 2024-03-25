@@ -1,0 +1,16 @@
+@import "../../styles/mixins/button-toggle-group";
+
+:host {
+  @include generate-button-toggle-group();
+  ::ng-deep .mat-button-toggle-appearance-standard .mat-button-toggle-label-content {
+    height: 32px;
+    display: flex;
+    align-items: center;
+  }
+
+  .label {
+    font-size: 12px;
+    font-weight: 500;
+    text-transform: uppercase;
+  }
+}

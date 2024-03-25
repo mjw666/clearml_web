@@ -1,0 +1,42 @@
+@import "variables";
+
+:host {
+  .card-container {
+    height: 100%;
+  }
+  .card-row {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, var(--cardWidth));
+    grid-gap: var(--gridGap);
+    margin-bottom: var(--gridGap);
+    justify-content: center;
+
+    &.snippets-mode {
+      grid-template-columns: repeat(auto-fit, minmax(var(--cardWidth), 1fr));
+      padding: 0 var(--padding);
+    }
+  }
+}
+
+.load-more {
+  display: flex;
+  justify-content: center;
+  width: 100%;
+  padding: 15px;
+
+  .load-more-btn {
+    padding: 8px 40px;
+  }
+
+  .load-spinner {
+    display: inline-block;
+    vertical-align: middle;
+    background-image: url("../../../assets/icons/Spinner.svg");
+    background-repeat: no-repeat;
+    background-size: 16px;
+    width: 16px;
+    height: 16px;
+    margin-right: 6px;
+
+  }
+}

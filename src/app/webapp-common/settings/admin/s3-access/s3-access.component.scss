@@ -1,0 +1,72 @@
+@import "variables";
+
+::ng-deep body sm-s3-access .editable {
+  padding: 0;
+  background-color: #ffffff;
+}
+
+.s3-row {
+  display: grid;
+  grid-gap: 6px;
+  grid-template-columns: minmax(60px, 20%) minmax(40px, 15%) minmax(60px, 20%) minmax(40px, 10%) minmax(40px, 10%) minmax(60px, 20%) 50px;
+  padding: 6px 0;
+  border-bottom: $blue-500 solid 1px;
+
+  input {
+    color: $blue-100;
+  }
+
+  &:last-child {
+    padding-bottom: 8px;
+  }
+}
+
+.header {
+  color: $blue-400;
+  border-bottom: solid 1px;
+  padding-bottom: 6px;
+  margin-bottom: 10px;
+  text-transform: uppercase;
+  font-weight: 500;
+  font-size: 12px;
+
+  & > div {
+    padding-left: 6px;
+  }
+}
+
+.delete-button {
+  display: flex;
+  align-items: center;
+  .al-icon {
+    color: $blue-300;
+    &:hover {
+      color: $blue-200;
+    }
+  }
+}
+
+.alert-icon {
+  display: flex;
+  align-items: center;
+  .al-icon {
+    color: $error-dark;
+    &:hover {
+      color: $pipeline-failed;
+    }
+  }
+}
+
+.add-button {
+  display: inline-block;
+  margin: 12px 0 24px;
+  color: $blue-280;
+
+  &:hover {
+    color: $white;
+  }
+
+  .al-icon {
+   vertical-align: middle;
+  }
+}

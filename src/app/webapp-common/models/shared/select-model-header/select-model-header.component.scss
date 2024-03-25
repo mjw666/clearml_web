@@ -1,0 +1,16 @@
+:host {
+
+  ::ng-deep .search-input-container.active {
+    width: 500px !important;
+  }
+
+  sm-search {
+    display: contents;
+  }
+  .search-block {
+    display: inline-block;
+  }
+  .create-new-icon {
+    margin-left: 8px;
+  }
+}

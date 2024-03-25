@@ -1,0 +1,107 @@
+<sm-editable-section #experimentDescriptionSection
+                     class="grow"
+                     [editable]="!isExample"
+                     [disableEditable]="isExample"
+                     (saveClicked)="commentValueChanged(experimentCommentText); experimentDescriptionSection.editModeChanged(false);"
+                     (cancelClicked)="onCancelComment() "
+>
+  <sm-section-header label="描述:"></sm-section-header>
+  <textarea rows="4"
+            class="mb-2"
+            data-id="descriptionTextField"
+            [(ngModel)]="experimentCommentText" [readOnly]="!experimentDescriptionSection.inEditMode"></textarea>
+</sm-editable-section>
+
+<div class="general-info">
+  <sm-labeled-row label="是否存档:">
+    <div style="width: 93px">{{experiment?.system_tags?.includes('archived') ? '是' : '否'}}</div>
+  </sm-labeled-row>
+
+
+  <sm-labeled-row label="更改时间:">
+    {{(experiment?.status_changed | date : timeFormatString) | NA}}
+  </sm-labeled-row>
+
+  <sm-labeled-row label="最后一次迭代:">
+    {{(experiment?.last_iteration) | NA}}
+  </sm-labeled-row>
+
+
+  <sm-labeled-row label="消息状态:">
+    {{experiment?.status_message | NA}}
+  </sm-labeled-row>
+
+
+  <sm-labeled-row label="状态:">
+    {{experiment?.status_reason | NA}}
+  </sm-labeled-row>
+
+
+  <sm-labeled-row label="创建时间:">
+    {{(experiment?.created | date : timeFormatString) | NA}}
+  </sm-labeled-row>
+
+
+  <sm-labeled-row label="开始时间:">
+    {{(experiment?.started | date : timeFormatString) | NA}}
+  </sm-labeled-row>
+
+
+  <sm-labeled-row label="最后更新时间:">
+    {{(experiment?.last_update | date:'MMM d yyyy H:mm') | NA}}
+  </sm-labeled-row>
+
+
+  <sm-labeled-row label="计算时间:">
+    {{(experiment?.completed | date : timeFormatString) | NA}}
+  </sm-labeled-row>
+
+  <sm-labeled-row label="运行时间:">
+    {{(experiment?.active_duration | duration) | NA}}
+  </sm-labeled-row>
+
+  <sm-labeled-row label="队列:">
+    <a [routerLink]="'/workers-and-queues/queues'" [queryParams]="{id: experiment?.execution?.queue?.id}">
+      {{experiment?.execution?.queue?.name | NA}}
+    </a>
+  </sm-labeled-row>
+
+  <sm-labeled-row label="工作:">
+    <a [routerLink]="'/workers-and-queues/workers'" [queryParams]="{id: experiment?.last_worker}">
+      {{experiment?.last_worker | NA}}
+    </a>
+  </sm-labeled-row>
+
+  <sm-labeled-row label="创建者:">
+    {{experiment?.user?.name | NA}}
+  </sm-labeled-row>
+
+
+  <sm-labeled-row label="父任务:">
+    <div *ngIf="experiment?.parent; else nA">
+      <a [href]="'projects/*/experiments/'+ experiment?.parent?.id"
+         target="_blank">{{experiment?.parent?.name}}</a>
+      <sm-copy-clipboard [clipboardText]="experiment?.parent?.id"
+                         [hideBackground]="true"
+                         [label]="''"
+                         [inline]="true"
+                         [tooltipText]="'将父任务ID复制到剪贴板'" class="copy-btn"></sm-copy-clipboard>
+    </div>
+    <ng-template #nA>{{null| NA}}</ng-template>
+  </sm-labeled-row>
+
+  <sm-labeled-row label="关联项目:">
+    {{experiment?.project?.name | NA}}
+  </sm-labeled-row>
+
+  <sm-labeled-row label="ID:">
+    {{experiment?.id | NA}}
+  </sm-labeled-row>
+
+  <ng-container *ngFor="let runtimeItem of $any(experiment?.runtime) | keyvalue | filterInternal ">
+    <sm-labeled-row [label]="runtimeItem.key">
+      {{runtimeItem.value}}
+    </sm-labeled-row>
+  </ng-container>
+
+</div>

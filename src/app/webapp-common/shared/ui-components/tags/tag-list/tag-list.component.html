@@ -1,0 +1,30 @@
+<span class="sys-tag tag-item" data-id="tagIcon" *ngFor="let tag of sysTags">{{tag}}</span>
+<ng-container *ngIf="remove.observed; else:noRemove">
+  <sm-user-tag class="tag-item"
+               *ngFor="let tag of tagsList; trackBy: trackFn"
+               [style.--max-hover-width]="maxTagHover + 'px'"
+               [colors]="tag.colorObservable | async"
+               [caption]="tag.caption"
+               [tooltip]="tooltip"
+               [disabledRemove]="disableRemove"
+               (remove)="removeTag($event)"
+  ></sm-user-tag>
+</ng-container>
+
+<ng-template #noRemove>
+  <sm-user-tag class="tag-item" data-id="tagName"
+               *ngFor="let tag of tagsList; trackBy: trackFn"
+               [colors]="tag.colorObservable | async"
+               [caption]="tag.caption"
+               [tooltip]="tooltip"
+  ></sm-user-tag>
+</ng-template>
+
+<sm-user-tag
+  class="add-button"
+  [class.no-tags]="!tagsList?.length"
+  *ngIf="add.observed"
+  caption="添加标签"
+  [colors]="{foreground: '#a7b2d8', background: null}"
+  (add)="add.emit($event)"
+></sm-user-tag>

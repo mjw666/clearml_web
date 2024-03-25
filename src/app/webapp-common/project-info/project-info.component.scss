@@ -1,0 +1,74 @@
+@import "variables";
+@import "../layout/layout";
+
+.header-container {
+  height: $project-header-height;
+}
+
+.info-content {
+  height: calc(100% - #{$project-header-height});
+  min-height: 500px;
+  overflow: auto;
+  display: flex;
+  flex-direction: column;
+  padding: 0 24px;
+
+  .metric-panel {
+    max-height: 340px;
+    min-height: 48px;
+    width: 100%;
+    max-width: 960px;
+    margin: 0 auto 16px;
+    overflow: hidden;
+
+    &.open {
+      min-height: 340px;
+    }
+
+    mat-expansion-panel {
+      height: 100%;
+      background-color: $blue-900;
+
+      .mat-expansion-panel-header-title {
+        color: $blue-250;
+        font-size: 16px;
+      }
+    }
+
+    sm-project-stats {
+      min-height: 300px;
+      height: 300px;
+    }
+  }
+
+  .overview-placeholder {
+    min-height: 320px;
+    flex: 1;
+
+    .no-data-title {
+      font-size: 20px;
+      color: $blue-100;
+      font-weight: 500;
+      margin: 24px 0;
+    }
+
+    .no-data-button {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+    }
+  }
+
+  sm-markdown-editor {
+    flex: 1;
+    width: 100%;
+    min-height: 300px;
+    max-width: 960px;
+    margin: 0 auto;
+
+    &.editor {
+      max-width: 1856px;
+    }
+  }
+}
+

@@ -1,0 +1,147 @@
+@import "variables";
+
+$inline-edit-base-width: 93%;
+
+:host.dark {
+  // input
+  .inline-edit-input,
+  .inline-edit-input:active,
+  .inline-edit-input:focus {
+    background-color: #000;
+    color: $light-periwinkle-two;
+    border: none;
+
+    &.ng-invalid {
+      color: $error-color;
+    }
+  }
+
+  // textarea
+  .inline-edit-textarea,
+  .inline-edit-textarea:active,
+  .inline-edit-textarea:focus {
+    background-color: transparent;
+    color: $blue-100;
+    min-height: 86px;
+  }
+
+
+  .inline-edit-close, .inline-edit-approve {
+    color: $blue-200;
+
+    &:hover {
+      color: white;
+    }
+  }
+}
+
+
+:host {
+  ::ng-deep .ui-inplace .ui-inplace-display {
+    background-color: transparent;
+    padding: 0;
+  }
+
+  .inline-edit-close, .inline-edit-approve {
+    line-height: 16px;
+    font-size: 16px;
+    transition: color 300ms;
+
+    &:hover {
+      color: $purple;
+    }
+  }
+
+  .inline-edit-approve.disabled {
+    opacity: 0.25;
+    cursor: not-allowed !important;
+    pointer-events: none;
+  }
+
+  .inline-edit-form {
+    position: relative;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    // padding-right: 24px;
+
+    &.multiline {
+      flex-direction: column;
+      align-items: flex-end;
+      padding-right: unset;
+
+      .buttons {
+        width: 65px;
+        min-width: 65px;
+        margin: 6px 0 0 0;
+      }
+      .inline-edit-close,
+      .inline-edit-approve {
+        line-height: 20px;
+        font-size: 20px;
+      }
+    }
+    input.warn {
+      padding-right: 32px;
+    }
+    .al-ico-alert {
+      position: absolute;
+      right: 100px;
+      color: $warn-color;
+    }
+
+    .buttons {
+      display: flex;
+      margin-left: 6px;
+      i {
+        width: 32px;
+        height: 32px;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+      }
+    }
+  }
+}
+
+.editable-div {
+  position: relative;
+  .value {
+    display: flex;
+    align-items: center;
+    padding-right: 32px;
+  }
+  .input {
+    display: none;
+  }
+  &.edit-mode {
+    .value {
+      display: none;
+    }
+    .input {
+      display: block;
+    }
+  }
+
+  .editable-pen {
+    position: absolute;
+    right: 0;
+    opacity: 0;
+    transition: opacity 0.35s;
+  }
+
+  &:hover {
+    .editable-pen {
+      opacity: 1;
+    }
+  }
+
+  &.is-description {
+    .value {
+      padding-right: 0;
+    }
+    .editable-pen {
+      position: static;
+    }
+  }
+}

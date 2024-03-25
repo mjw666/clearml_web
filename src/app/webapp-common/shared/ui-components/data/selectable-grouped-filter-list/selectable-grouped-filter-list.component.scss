@@ -1,0 +1,34 @@
+@import "variables";
+
+:host {
+  overflow-y: auto;
+  display: flex;
+  flex-direction: column;
+  overflow-x: hidden;
+}
+
+.toggle-all-text {
+  display: flex;
+  margin-top: 12px;
+  padding: 0 24px;
+  > span  {
+    margin-left: auto;
+    font-size: 11px;
+    color: $blue-480;
+    cursor: pointer;
+  }
+}
+
+i.toggle-icon {
+  font-size: 15px;
+  height: 18px;
+  padding-left: 5px;
+
+  &.unchecked {
+    opacity: 0.4;
+  }
+}
+
+sm-search {
+  padding: 24px 24px 0;
+}

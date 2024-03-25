@@ -1,0 +1,29 @@
+@import "variables";
+
+:host {
+  .header {
+    font-size: 16px;
+    .user-icon {
+      width: 88px;
+      height: 88px;
+      margin-bottom: 12px;
+      overflow: hidden;
+      background-image: url(../../../../webapp-common/assets/icons/icon-profile-user.svg);
+    }
+    
+    .profile-email {
+      margin-top: 12px;
+      color: $blue-400;
+    }
+
+    .profile-name {
+      display: flex;
+      align-items: center;
+      padding-left: 32px;
+      min-height: 32px;
+      &.edit {
+        transform: translateX(18px);
+      }
+    }
+  }
+}

@@ -1,0 +1,55 @@
+<sm-menu
+  [iconClass]="'al-icon al-ico-settings al-color pointer create-new-icon ' + (disabled ? 'pointer-events-none blue-500' : 'blue-300')"
+  smMenuClass="light-theme custom-columns"
+  data-id="CustomizeColumn"
+  [buttonTooltip]=" skipValueType ? 'Customize charts view' : '自定义表格'"
+  [showButton]="false"
+  (click)="!disabled && getMetricsToDisplay.emit()"
+  (menuClosed)="setMode(customColumnModeEnum.Standard)"
+  [style.pointer-events]="disabled ? 'none' : 'initial'"
+>
+  <div *ngIf="!customColumnMode" (click)="$event.stopPropagation()">
+    <sm-custom-columns-list
+      [tableCols]="tableCols"
+      [isLoading]="isLoading"
+      [menuTitle]="skipValueType ? 'CUSTOMIZE CHARTS VIEW' : '自定义列' "
+      (removeColFromList)="removeColFromList.emit($event)"
+      (selectedTableColsChanged)="selectedTableColsChanged.emit($event)"
+    >
+    </sm-custom-columns-list>
+
+    <div [ngClass]="{loading: isLoading, loaded: !isLoading}">
+      <div *ngIf="hyperParams" class="sm-menu-header">添加自定义列</div>
+      <div class="custom-column-buttons">
+        <div class="add-button metrics-button"
+             [class.only-metrics]="!hyperParams"
+             [class.disabled]="!metricVariants?.length"
+             smClickStopPropagation
+             (click)="$event.stopPropagation(); metricVariants?.length && setMode(customColumnModeEnum.Metrics)"
+        ><i class="al-icon al-ico-plus sm-md me-1"></i><span data-id="Metric Button" class="caption">增加列</span>
+        </div>
+        <div *ngIf="hyperParams" class="add-button metrics-button"
+             smClickStopPropagation
+             [class.disabled]="!hasHyperParams"
+             (click)="$event.stopPropagation(); hasHyperParams && setMode(customColumnModeEnum.HyperParams)"
+        ><i class="al-icon al-ico-plus sm-md me-1"></i><span data-id="Hyperparameters Button" class="caption">参数</span>
+        </div>
+      </div>
+    </div>
+  </div>
+  <sm-select-metric-for-custom-col *ngIf="customColumnMode === customColumnModeEnum.Metrics"
+                                   [tableCols]="tableCols"
+                                   [metricVariants]="metricVariants"
+                                   [skipValueType]="skipValueType"
+                                   (goBack)="setMode(customColumnModeEnum.Standard)"
+                                   (selectedMetricToShow)="selectedMetricToShow.emit($event)">
+  </sm-select-metric-for-custom-col>
+  <sm-select-hyper-params-for-custom-col *ngIf="customColumnMode === customColumnModeEnum.HyperParams"
+                                         class="hyper-params-custom-col"
+                                         [tableCols]="tableCols"
+                                         [hyperParams]="hyperParams"
+                                         (goBack)="setMode(customColumnModeEnum.Standard)"
+                                         (selectedHyperParamToShow)="selectedHyperParamToShow.emit($event)"
+                                         (clearSelection)="clearSelection.emit()">
+  </sm-select-hyper-params-for-custom-col>
+</sm-menu>

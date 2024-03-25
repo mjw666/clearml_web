@@ -1,0 +1,103 @@
+<div class="list-container light-theme">
+
+  <!--#######  Metrics Autocomplete  ######-->
+  <div smClickStopPropagation class="metrics-container" tabindex="1" (blur)="listOpen = false">
+    <div class="metric-title">Performance Metric</div>
+    <div class="metrics-search" (click)="openList()">
+      <input #searchMetric
+             type="text"
+             (keydown.escape)="clearMetricSearch(); searchMetric.value= ''"
+             placeholder="Search metric"
+             data-id="searchField"
+             [smTooltip]="selectedMetric?.name"
+             [matTooltipShowDelay]="500"
+             [value]="(!metrics || listOpen) ? '' : selectedMetric?.name"
+             (input)="updateMetricsList($event)"
+      >
+      <i *ngIf="searchMetric.value.length === 0" class="fa fa-search pe-2"></i>
+      <i *ngIf="searchMetric.value.length > 0" class="fa fa-times pointer pe-2" (click)="clearMetricSearchAndSelected(); searchMetric.value= ''"></i>
+    </div>
+  <mat-radio-group
+    *ngIf="!listOpen"
+    class="value-types"
+    [value]="valueType"
+    [disabled]="searchMetric.value=== ''"
+    (change)="valueTypeChange($event)">
+    <mat-radio-button class="sm" [value]="'value'">LAST</mat-radio-button>
+    <mat-radio-button class="sm" [value]="'min_value'">MIN</mat-radio-button>
+    <mat-radio-button class="sm" [value]="'max_value'">MAX</mat-radio-button>
+  </mat-radio-group>
+    <div class="metric-list" [ngClass]="{'metric-list--show': listOpen}">
+      <mat-expansion-panel *ngFor="let metricGroup of metricsOptions; trackBy: trackMetricByFn"
+                           class="metric-list__panel"
+                           [expanded]="listOpen && searchMetric.value.length > 0"
+                           togglePosition="before">
+        <mat-expansion-panel-header (click)="searchMetric.focus()" class="metric-list__header" expandedHeight="40px" collapsedHeight="40px">
+          <mat-panel-title class="metric-list__title">
+            {{metricGroup.metricName}}
+          </mat-panel-title>
+        </mat-expansion-panel-header>
+        <ng-template matExpansionPanelContent>
+          <div *ngFor="let variant of metricGroup.variants; trackBy: trackVariantByFn"
+               class="metric-list__item"
+               [class.selected]="$any(variant).value.name === selectedMetric?.name"
+               (click)="metricSelected($any(variant))">
+            <span class="ellipsis">{{$any(variant).name}}</span>
+          </div>
+        </ng-template>
+      </mat-expansion-panel>
+    </div>
+
+  </div>
+  <hr class="separate-margins">
+
+  <!--#######  Hyper Params Checked List  ######-->
+  <sm-grouped-checked-filter-list
+    titleText="Parameters"
+    [itemsList]="hyperParams"
+    [selectedItemsList]="selectedHyperParams"
+    [selectFilteredItems]="selectShowIdenticalHyperParams$ | async"
+    [selectedItemsListMapper]="selectedItemsListMapper"
+    selectedItemsListPrefix=""
+    [limitSelection]="50"
+    [single]="scatter"
+    (selectedItems)="selectedParamsChanged($event)"
+    (clearSelection)="clearSelection()"
+  >
+    <mat-slide-toggle
+      (change)="showIdenticalParamsToggled()"
+      [checked]="!showIdenticalParamsActive">隐藏相同的字段
+    </mat-slide-toggle>
+  </sm-grouped-checked-filter-list>
+
+</div>
+<div class="graphs-container h-100">
+  <ng-container
+    *ngIf="(experiments$ | async).length > 1 && selectedHyperParams?.length > 0 && !!selectedMetric; else no_data"
+  >
+    <sm-compare-scatter-plot
+      *ngIf="scatter; else parallel"
+      [params]="selectedHyperParams"
+      [metric]="selectedMetric.path + '.' + valueType"
+      [metricName]="selectedMetric.name"
+      [experiments]="experiments$ | async"
+    ></sm-compare-scatter-plot>
+    <ng-template #parallel>
+      <sm-parallel-coordinates-graph
+        *ngIf="plotlyReady$ | async"
+        [experiments]="experiments$ | async"
+        [parameters]="selectedHyperParams"
+        [metric]="selectedMetric"
+        [metricValueType]="valueType"
+        (createEmbedCode)="createEmbedCode($event)"
+      ></sm-parallel-coordinates-graph>
+    </ng-template>
+  </ng-container>
+  <ng-template #no_data>
+    <div class="d-flex align-items-center justify-content-center flex-column h-100 no-data">
+      <div class="al-icon al-ico-no-data-graph"></div>
+      <h4 class="no-data-title">暂无数据</h4>
+      <div>请选择参数</div>
+    </div>
+  </ng-template>
+</div>

@@ -1,0 +1,17 @@
+@import "variables";
+
+:host {
+  footer {
+    display: flex;
+    justify-content: space-between;
+    padding: 18px 24px;
+    height: 64px;
+    border-top: $blue-500 solid 1px;
+    line-height: 26px;
+
+    .version {
+      color: $blue-400;
+      font-weight: 300;
+    }
+  }
+}
